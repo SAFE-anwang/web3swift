@@ -161,4 +161,62 @@ public class Web3 {
 
     public var postSubmissionHooks: [SubmissionResultHook] = [SubmissionResultHook]()
 
+    var safe4Instance: Web3.Safe4?
+    public var safe4: Web3.Safe4 {
+        let safe4Instance = safe4Instance ?? Web3.Safe4(provider: provider, web3: self)
+        self.safe4Instance = safe4Instance
+        return safe4Instance
+    }
+
+    public class Safe4 {
+        var provider: Web3Provider
+        var web3: Web3
+        var syspropertyInstance: SysProperty?
+        var accountmanagerInstance: AccountManager?
+        var masternodeInstance: MasterNode?
+        var supernodeInstance: SuperNode?
+        var snvoteInstance: SNVote?
+        var proposalInstance: Proposal?
+
+        public var sysproperty: SysProperty {
+            let syspropertyInstance = syspropertyInstance ?? SysProperty(provider: provider, web3: web3)
+            self.syspropertyInstance = syspropertyInstance
+            return syspropertyInstance
+        }
+
+        public var accountmanager: AccountManager {
+            let accountmanagerInstance = accountmanagerInstance ?? AccountManager(provider: provider, web3: web3)
+            self.accountmanagerInstance = accountmanagerInstance
+            return accountmanagerInstance
+        }
+
+        public var masternode: MasterNode {
+            let masternodeInstance = masternodeInstance ?? MasterNode(provider: provider, web3: web3)
+            self.masternodeInstance = masternodeInstance
+            return masternodeInstance
+        }
+
+        public var supernode: SuperNode {
+            let supernodeInstance = supernodeInstance ?? SuperNode(provider: provider, web3: web3)
+            self.supernodeInstance = supernodeInstance
+            return supernodeInstance
+        }
+
+        public var snvote: SNVote {
+            let snvoteInstance = snvoteInstance ?? SNVote(provider: provider, web3: web3)
+            self.snvoteInstance = snvoteInstance
+            return snvoteInstance
+        }
+
+        public var proposal: Proposal {
+            let proposalInstance = proposalInstance ?? Proposal(provider: provider, web3: web3)
+            self.proposalInstance = proposalInstance
+            return proposalInstance
+        }
+
+        public init(provider prov: Web3Provider, web3 web3instance: Web3) {
+            provider = prov
+            web3 = web3instance
+        }
+    }
 }
