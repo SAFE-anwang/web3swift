@@ -33,7 +33,7 @@ class AccountManagerTest: LocalTestCase {
     func testTransfer() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
         let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
-        let txid = try await web3.safe4.accountmanager.transfer(privateKey: privateKey, to: EthereumAddress("0xd6ebea69f2d81b9ca259c0b6ed3d9ad6aa206ef1")!, amount: 100000000000000000, lockDay: 1)
+        let txid = try await web3.safe4.accountmanager.transfer(privateKey: privateKey, to: EthereumAddress("0x64ae0d18085d0c3ec202a208e96bc2fc24e4a7e8")!, amount: 100000000000000000, lockDay: 1)
         print(txid)
         XCTAssertNotEqual(txid, nil)
     }

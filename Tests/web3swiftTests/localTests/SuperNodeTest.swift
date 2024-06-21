@@ -141,6 +141,13 @@ class SuperNodeTest: LocalTestCase {
         XCTAssertTrue(ret)
     }
 
+    func testExistName() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let ret = try await web3.safe4.supernode.existName("sn-5")
+        print(ret)
+        XCTAssertTrue(ret)
+    }
+
     func testExistEnode() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
         let enode = "enode://f687439863fce1ff70dc40bec0fe5ea1ad0833a2672c29590b0aa9001e1488013e42e8adc96a6a9312ed1426d6bea47026d057df57a5856970b207afac771f09@10.0.0.5:30303"
