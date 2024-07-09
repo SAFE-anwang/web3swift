@@ -8,7 +8,10 @@ public class Proposal {
     init(provider: Web3Provider, web3: Web3) {
         contract = Safe4Contract(provider: provider, web3: web3, contractAddr: Safe4ContractAddress.ProposalContractAddr, contractABI: Safe4ContractABI.ProposalABI)
     }
+}
 
+public extension Proposal {
+    
     func create(privateKey: Data, title: String, payAmount: BigUInt, payTimes: BigUInt, startPayTime: BigUInt, endPayTime: BigUInt, description: String) async throws -> String {
         return try await contract.call(privateKey: privateKey, value: BigUInt(1e18), method: "create", parameters: [title, payAmount, payTimes, startPayTime, endPayTime, description])
     }

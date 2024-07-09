@@ -9,6 +9,10 @@ public class SNVote {
         contract = Safe4Contract(provider: provider, web3: web3, contractAddr: Safe4ContractAddress.SNVoteContractAddr, contractABI: Safe4ContractABI.SNVoteABI)
     }
 
+
+}
+
+public extension SNVote {
     func voteOrApproval(privateKey: Data, isVote: Bool, dstAddr: EthereumAddress, recordIDs: [BigUInt]) async throws -> String {
         return try await contract.call(privateKey: privateKey, method: "voteOrApproval", parameters: [isVote, dstAddr, recordIDs])
     }

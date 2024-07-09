@@ -10,7 +10,9 @@ public class MasterNode {
         logic = Safe4Contract(provider: provider, web3: web3, contractAddr: Safe4ContractAddress.MasterNodeLogicContractAddr, contractABI: Safe4ContractABI.MasterNodeLogicABI)
         storage = Safe4Contract(provider: provider, web3: web3, contractAddr: Safe4ContractAddress.MasterNodeStorageContractAddr, contractABI: Safe4ContractABI.MasterNodeStorageABI)
     }
+}
 
+public extension MasterNode {
     func register(privateKey: Data, value: BigUInt, isUnion: Bool, addr: EthereumAddress, lockDay: BigUInt, enode: String, description: String, creatorIncentive: BigUInt, partnerIncentive: BigUInt) async throws -> String {
         return try await logic.call(privateKey: privateKey, value: value, method: "register", parameters: [isUnion, addr, lockDay, enode, description, creatorIncentive, partnerIncentive])
     }

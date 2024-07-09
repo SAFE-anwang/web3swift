@@ -9,6 +9,10 @@ public class SysProperty {
         contract = Safe4Contract(provider: provider, web3: web3, contractAddr: Safe4ContractAddress.PropertyContractAddr, contractABI: Safe4ContractABI.PropertyABI)
     }
 
+
+}
+
+public extension SysProperty {
     func applyUpdate(privateKey: Data, name: String, value: BigUInt, reason: String) async throws -> String {
         return try await contract.call(privateKey: privateKey, method: "applyUpdate", parameters: [name, value, reason])
     }

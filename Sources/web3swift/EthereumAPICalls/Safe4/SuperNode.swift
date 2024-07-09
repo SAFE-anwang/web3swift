@@ -10,7 +10,9 @@ public class SuperNode {
         logic = Safe4Contract(provider: provider, web3: web3, contractAddr: Safe4ContractAddress.SuperNodeLogicContractAddr, contractABI: Safe4ContractABI.SuperNodeLogicABI)
         storage = Safe4Contract(provider: provider, web3: web3, contractAddr: Safe4ContractAddress.SuperNodeStorageContractAddr, contractABI: Safe4ContractABI.SuperNodeStorageABI)
     }
+}
 
+public extension SuperNode {
     func register(privateKey: Data, value: BigUInt, isUnion: Bool, addr: EthereumAddress, lockDay: BigUInt, name: String, enode: String, description: String, creatorIncentive: BigUInt, partnerIncentive: BigUInt, voterIncentive: BigUInt) async throws -> String {
         return try await logic.call(privateKey: privateKey, value: value, method: "register", parameters: [isUnion, addr, lockDay, name, enode, description, creatorIncentive, partnerIncentive, voterIncentive])
     }
