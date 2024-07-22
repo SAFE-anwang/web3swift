@@ -8,13 +8,19 @@ public class AccountManager {
     init(provider: Web3Provider, web3: Web3) {
         contract = Safe4Contract(provider: provider, web3: web3, contractAddr: Safe4ContractAddress.AccountManagerContractAddr, contractABI: Safe4ContractABI.AccountManagerABI)
     }
-
-
 }
 
 public extension AccountManager {
     func deposit(privateKey: Data, value: BigUInt, to: EthereumAddress, lockDay: BigUInt) async throws -> String {
         return try await contract.call(privateKey: privateKey, value: value, method: "deposit", parameters: [to, lockDay])
+    }
+
+    func batchDeposit4One(privateKey: Data, value: BigUInt, to: EthereumAddress, times: BigUInt, spaceDay: BigUInt, startDay: BigUInt) async throws -> String {
+        return try await contract.call(privateKey: privateKey, value: value, method: "batchDeposit4One", parameters: [to, times, spaceDay, startDay])
+    }
+
+    func batchDeposit4Multi(privateKey: Data, value: BigUInt, addrs: [EthereumAddress], times: BigUInt, spaceDay: BigUInt, startDay: BigUInt) async throws -> String {
+        return try await contract.call(privateKey: privateKey, value: value, method: "batchDeposit4Multi", parameters: [addrs, times, spaceDay, startDay])
     }
 
     func withdraw(privateKey: Data) async throws -> String {

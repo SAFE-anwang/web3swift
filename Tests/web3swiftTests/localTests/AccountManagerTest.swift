@@ -14,6 +14,24 @@ class AccountManagerTest: LocalTestCase {
         XCTAssertNotEqual(txid, nil)
     }
 
+    func testBatchDeposit4One() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        // 0xa5cec2b8cda30da3f3170b4505cb44226b6c9dd2: privateKey: 0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010
+        let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
+        let txid = try await web3.safe4.accountmanager.batchDeposit4One(privateKey: privateKey, value: 2000000000000000000, to: EthereumAddress("0xa5cec2b8cda30da3f3170b4505cb44226b6c9dd2")!, times: 3, spaceDay: 1, startDay: 1)
+        print(txid)
+        XCTAssertNotEqual(txid, nil)
+    }
+
+    func testBatchDeposit4Multi() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        // 0xa5cec2b8cda30da3f3170b4505cb44226b6c9dd2: privateKey: 0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010
+        let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
+        let txid = try await web3.safe4.accountmanager.batchDeposit4Multi(privateKey: privateKey, value: 2000000000000000000, addrs: [EthereumAddress("0xa5cec2b8cda30da3f3170b4505cb44226b6c9dd2")!, EthereumAddress("0x64ae0d18085d0c3ec202a208e96bc2fc24e4a7e8")!], times: 2, spaceDay: 1, startDay: 1)
+        print(txid)
+        XCTAssertNotEqual(txid, nil)
+    }
+
     func testWithdraw() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
         let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
