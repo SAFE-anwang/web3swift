@@ -173,4 +173,32 @@ class SNVoteTest: LocalTestCase {
         print(ret)
         XCTAssertTrue(ret.count > 0)
     }
+
+    func testGetAllAmount() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let ret = try await web3.safe4.snvote.getAllAmount()
+        print(ret)
+        XCTAssertTrue(ret > 0)
+    }
+
+    func testGetAllVoteNum() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let ret = try await web3.safe4.snvote.getAllVoteNum()
+        print(ret)
+        XCTAssertTrue(ret > 0)
+    }
+
+    func testGetAllProxiedAmount() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let ret = try await web3.safe4.snvote.getAllProxiedAmount()
+        print(ret)
+        XCTAssertTrue(ret > 0)
+    }
+
+    func testGetAllProxiedVoteNum() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let ret = try await web3.safe4.snvote.getAllProxiedVoteNum()
+        print(ret)
+        XCTAssertTrue(ret > 0)
+    }
 }

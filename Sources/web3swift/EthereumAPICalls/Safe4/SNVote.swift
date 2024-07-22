@@ -8,8 +8,6 @@ public class SNVote {
     init(provider: Web3Provider, web3: Web3) {
         contract = Safe4Contract(provider: provider, web3: web3, contractAddr: Safe4ContractAddress.SNVoteContractAddr, contractABI: Safe4ContractABI.SNVoteABI)
     }
-
-
 }
 
 public extension SNVote {
@@ -91,5 +89,21 @@ public extension SNVote {
 
     func getIDs(_ addr: EthereumAddress, _ start: BigUInt, _ count: BigUInt) async throws -> [BigUInt] {
         return try await contract.query("getIDs", parameters: [addr, start, count], outType: [BigUInt].self)
+    }
+
+    func getAllAmount() async throws -> BigUInt {
+        return try await contract.query("getAllAmount", outType: BigUInt.self)
+    }
+
+    func getAllVoteNum() async throws -> BigUInt {
+        return try await contract.query("getAllVoteNum", outType: BigUInt.self)
+    }
+
+    func getAllProxiedAmount() async throws -> BigUInt {
+        return try await contract.query("getAllProxiedAmount", outType: BigUInt.self)
+    }
+
+    func getAllProxiedVoteNum() async throws -> BigUInt {
+        return try await contract.query("getAllProxiedVoteNum", outType: BigUInt.self)
     }
 }
