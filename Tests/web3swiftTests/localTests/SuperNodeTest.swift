@@ -112,6 +112,20 @@ class SuperNodeTest: LocalTestCase {
         XCTAssertTrue(ret.count > 0)
     }
 
+    func testGetAddrNum4Creator() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let ret = try await web3.safe4.supernode.getAddrNum4Creator(EthereumAddress("0xd6ebea69f2d81b9ca259c0b6ed3d9ad6aa206ef1")!)
+        print(ret)
+        XCTAssertTrue(ret > 0)
+    }
+
+    func testGetAddrs4Creator() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let ret = try await web3.safe4.supernode.getAddrs4Creator(EthereumAddress("0xd6ebea69f2d81b9ca259c0b6ed3d9ad6aa206ef1")!, 0, 100)
+        print(ret)
+        XCTAssertTrue(ret.count > 0)
+    }
+
     func testGetTops() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
         let ret = try await web3.safe4.supernode.getTops()

@@ -57,6 +57,14 @@ public extension SuperNode {
         return try await storage.query("getAll", parameters: [start, count], outType: [EthereumAddress].self)
     }
 
+    func getAddrNum4Creator(_ creator: EthereumAddress) async throws -> BigUInt {
+        return try await storage.query("getAddrNum4Creator", parameters: [creator], outType: BigUInt.self)
+    }
+
+    func getAddrs4Creator(_ creator: EthereumAddress, _ start: BigUInt, _ count: BigUInt) async throws -> [EthereumAddress] {
+        return try await storage.query("getAddrs4Creator", parameters: [creator, start, count], outType: [EthereumAddress].self)
+    }
+
     func getTops() async throws -> [EthereumAddress] {
         return try await storage.query("getTops", outType: [EthereumAddress].self)
     }

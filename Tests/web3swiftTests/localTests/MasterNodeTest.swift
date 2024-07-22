@@ -107,6 +107,20 @@ class MasterNodeTest: LocalTestCase {
         XCTAssertTrue(ret.count > 0)
     }
 
+    func testGetAddrNum4Creator() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let ret = try await web3.safe4.masternode.getAddrNum4Creator(EthereumAddress("0xd52114c4071b5bfbd06a657a3db538bfd559a481")!)
+        print(ret)
+        XCTAssertTrue(ret > 0)
+    }
+
+    func testGetAddrs4Creator() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let ret = try await web3.safe4.masternode.getAddrs4Creator(EthereumAddress("0xd52114c4071b5bfbd06a657a3db538bfd559a481")!, 0, 100)
+        print(ret)
+        XCTAssertTrue(ret.count > 0)
+    }
+
     func testGetOfficials() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
         let ret = try await web3.safe4.masternode.getOfficials()
