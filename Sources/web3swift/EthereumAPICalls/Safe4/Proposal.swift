@@ -11,6 +11,9 @@ public class Proposal {
 }
 
 public extension Proposal {
+    func getBalance() async throws -> BigUInt {
+        return try await contract.query("getBalance", outType: BigUInt.self)
+    }
     
     func create(privateKey: Data, title: String, payAmount: BigUInt, payTimes: BigUInt, startPayTime: BigUInt, endPayTime: BigUInt, description: String) async throws -> String {
         return try await contract.call(privateKey: privateKey, value: BigUInt(1e18), method: "create", parameters: [title, payAmount, payTimes, startPayTime, endPayTime, description])

@@ -5,6 +5,13 @@ import XCTest
 @testable import web3swift
 
 class ProposalTest: LocalTestCase {
+    func testGetBalance() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let ret = try await web3.safe4.proposal.getBalance()
+        print(ret)
+        XCTAssertTrue(ret > 0)
+    }
+
     func testCreate() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
         // addr: 0xd52114c4071b5bfbd06a657a3db538bfd559a481, privateKey: 0xe171bcc091332eaa8fd76f529f880bd210b3187354706599b033df8155a94d84
