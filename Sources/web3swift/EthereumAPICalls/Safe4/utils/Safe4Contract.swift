@@ -31,6 +31,12 @@ public class Safe4Contract {
         return try await web3.eth.estimateGas(for: tx, onBlock: .pending)
     }
 
+    func signMessage(_ message: Data, _ privateKey: Data) -> Data {
+        guard let data = Utilities.hashPersonalMessage(message) else { return Data() }
+        let (compressedSignature, _) = SECP256K1.signForRecovery(hash: data, privateKey: privateKey)
+        return compressedSignature!
+    }
+
     func call(privateKey: Data, value: BigUInt = 0, method: String, parameters: [Any] = []) async throws -> String {
         let from = getAddress(privateKey)!
         let nonce = try await getNonce(from)
