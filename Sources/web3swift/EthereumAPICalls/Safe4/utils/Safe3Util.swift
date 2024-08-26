@@ -26,7 +26,7 @@ public class Safe3Util {
         // print("3. ripemd160: " + r.toHexString())
 
         var temp = Data()
-        temp.append(uint8(0x4c))
+        temp.append(UInt8(0x4c))
         temp.append(r)
         // print("4. Add network bytes to 3: " + temp.toHexString());
 
