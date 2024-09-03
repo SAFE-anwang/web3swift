@@ -5,24 +5,32 @@ import XCTest
 @testable import web3swift
 
 class Safe3Test: LocalTestCase {
-    func testRedeemSafe() async throws {
+    func testBatchRedeemSafe() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
-        // compressed-addr: Xy3pSqGgGHfS6suRbUFk2mYaBD8oTYApAZ, privateKey: 0x18E14A7B6A307F426A94F8114701E7C8E774E7F9A47E2C2035DB29A206321725
-        // uncompressed-addr: XanKmaz3PS6CCMFyh4o9BLM5bWyowyrnGR, privateKey: 0x18E14A7B6A307F426A94F8114701E7C8E774E7F9A47E2C2035DB29A206321725
-        let privateKey = Data(hex: "0x105EC40324284F2C8A5ED58553A07D4B633511A1D90DBC4ED3FB789A7B61D658")
-        let ret = try await web3.safe4.safe3.redeemSafe3(privateKey: privateKey)
+        let callerPrivateKey = Data(hex: "0x020274d1ddb0d006eb9a3c4871091c191c46a01c3fb8f09cfd1ae9192f893712")
+        var privateKeys: [Data] = []
+        privateKeys.append(Data(hex: "0xfdf1182eedfb83e9d93eaee6e5b5a690cd315168ddbbef1228f3be4c2fb46d06"))
+        privateKeys.append(Data(hex: "0xe94a71ba0a84651da768ba4ec433f322d4327f084797d2d0d7c1d62fdd4eb3d1"))
+        privateKeys.append(Data(hex: "0xc11fce126d5c751395e5aa4e53f38419c97dfdd1de58851bc0b7289f83d518e0"))
+        let ret = try await web3.safe4.safe3.batchRedeemSafe3(callerPrivateKey: callerPrivateKey, privateKeys: privateKeys)
         print(ret)
         XCTAssertTrue(ret.count > 0)
     }
 
-    func testRedeemMasterNode() async throws {
+    func testBatchRedeemMasterNode() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
-        // compressed-addr: Xy3pSqGgGHfS6suRbUFk2mYaBD8oTYApAZ, privateKey: 0x18E14A7B6A307F426A94F8114701E7C8E774E7F9A47E2C2035DB29A206321725
-        // uncompressed-addr: XanKmaz3PS6CCMFyh4o9BLM5bWyowyrnGR, privateKey: 0x18E14A7B6A307F426A94F8114701E7C8E774E7F9A47E2C2035DB29A206321725
-        let privateKey = Data(hex: "0x105EC40324284F2C8A5ED58553A07D4B633511A1D90DBC4ED3FB789A7B61D658")
-        let txids = try await web3.safe4.safe3.redeemMasterNode(privateKey: privateKey, enode: "enode://NodeInfo@127.0.0.1:8545")
-        print(txids)
-        XCTAssertTrue(txids.count > 0)
+        let callerPrivateKey = Data(hex: "0x020274d1ddb0d006eb9a3c4871091c191c46a01c3fb8f09cfd1ae9192f893712")
+        var privateKeys: [Data] = []
+        privateKeys.append(Data(hex: "0xfdf1182eedfb83e9d93eaee6e5b5a690cd315168ddbbef1228f3be4c2fb46d06"))
+        privateKeys.append(Data(hex: "0xe94a71ba0a84651da768ba4ec433f322d4327f084797d2d0d7c1d62fdd4eb3d1"))
+        privateKeys.append(Data(hex: "0xc11fce126d5c751395e5aa4e53f38419c97dfdd1de58851bc0b7289f83d518e0"))
+        var enodes: [String] = []
+        for _ in privateKeys {
+            enodes.append("enode://NodeInfo@127.0.0.1:8545")
+        }
+        let txid = try await web3.safe4.safe3.batchRedeemMasterNode(callerPrivateKey: callerPrivateKey, privateKeys: privateKeys, enodes: enodes)
+        print(txid)
+        XCTAssertTrue(txid.count > 0)
     }
 
     func testGetAllAvailableNum() async throws {

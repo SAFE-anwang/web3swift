@@ -11,79 +11,78 @@ public class Safe3 {
 }
 
 public extension Safe3 {
-    func redeemSafe3(privateKey: Data) async throws -> [String: [String]] {
-        let compressedPublicKey = Safe3Util.getCompressedPublicKey(privateKey)
-        let compressedSafe3Addr = Safe3Util.getSafe3Addr(compressedPublicKey)
-        let uncompressedPublicKey = Safe3Util.getUncompressedPublicKey(privateKey)
-        let uncompressedSafe3Addr = Safe3Util.getSafe3Addr(uncompressedPublicKey)
-        let sig4compress = contract.signMessage(Safe3Util.sha256(compressedSafe3Addr), privateKey)
-        let sig4uncompress = contract.signMessage(Safe3Util.sha256(uncompressedSafe3Addr), privateKey)
+    func batchRedeemSafe3(callerPrivateKey: Data, privateKeys: [Data]) async throws -> [String] {
+        var publicKey: Data
+        var safe3Addr: String
+        var sig: Data
+        var availablePubKeys: [Data] = []
+        var availableSigs: [Data] = []
+        var lockedPubKeys: [Data] = []
+        var lockedSigs: [Data] = []
+        for privateKey in privateKeys {
+            publicKey = Safe3Util.getCompressedPublicKey(privateKey)
+            safe3Addr = Safe3Util.getSafe3Addr(publicKey)
+            sig = contract.signMessage(Safe3Util.sha256(safe3Addr), privateKey)
+            if ((try await existAvailableNeedToRedeem(safe3Addr))) {
+                availablePubKeys.append(publicKey)
+                availableSigs.append(sig)
+            }
+            if ((try await existLockedNeedToRedeem(safe3Addr))) {
+                lockedPubKeys.append(publicKey)
+                lockedSigs.append(sig)
+            }
 
-        // print(compressedPublicKey.toHexString())
-        // print(compressedSafe3Addr)
-        // print(uncompressedPublicKey.toHexString())
-        // print(uncompressedSafe3Addr)
-        // print(sig4compress.toHexString())
-        // print(sig4uncompress.toHexString())
-
-        var availableTxids: [String] = []
-        var lockedTxids: [String] = []
-
-        // 1. Available Safe3
-        // 1-1. compressed address
-        if ((try await existAvailableNeedToRedeem(compressedSafe3Addr))) {
-            availableTxids.append(try await contract.call(privateKey: privateKey, method: "redeemAvailable", parameters: [compressedPublicKey, sig4compress]))
+            publicKey = Safe3Util.getUncompressedPublicKey(privateKey)
+            safe3Addr = Safe3Util.getSafe3Addr(publicKey)
+            sig = contract.signMessage(Safe3Util.sha256(safe3Addr), privateKey)
+            if ((try await existAvailableNeedToRedeem(safe3Addr))) {
+                availablePubKeys.append(publicKey)
+                availableSigs.append(sig)
+            }
+            if ((try await existLockedNeedToRedeem(safe3Addr))) {
+                lockedPubKeys.append(publicKey)
+                lockedSigs.append(sig)
+            }
         }
-        // 1-2. uncompressed address
-        if ((try await existAvailableNeedToRedeem(uncompressedSafe3Addr))) {
-            availableTxids.append(try await contract.call(privateKey: privateKey, method: "redeemAvailable", parameters: [uncompressedPublicKey, sig4uncompress]))
-        }
-
-        // 2. Locked Safe3
-        // 1-1. compressed address
-        if ((try await existLockedNeedToRedeem(compressedSafe3Addr))) {
-            lockedTxids.append(try await contract.call(privateKey: privateKey, method: "redeemLocked", parameters: [compressedPublicKey, sig4compress]))
-        }
-        // 1-2. uncompressed address
-        if ((try await existLockedNeedToRedeem(uncompressedSafe3Addr))) {
-            lockedTxids.append(try await contract.call(privateKey: privateKey, method: "redeemLocked", parameters: [uncompressedPublicKey, sig4uncompress]))
-        }
-
-        var ret: [String: [String]] = [:]
-        if (availableTxids.count > 0) {
-            ret["available"] = availableTxids
-        }
-        if (lockedTxids.count > 0) {
-            ret["locked"] = lockedTxids
-        }
-        return ret
-    }
-
-    func redeemMasterNode(privateKey: Data, enode: String) async throws -> [String] {
-        let compressedPublicKey = Safe3Util.getCompressedPublicKey(privateKey)
-        let compressedSafe3Addr = Safe3Util.getSafe3Addr(compressedPublicKey)
-        let uncompressedPublicKey = Safe3Util.getUncompressedPublicKey(privateKey)
-        let uncompressedSafe3Addr = Safe3Util.getSafe3Addr(uncompressedPublicKey)
-        let sig4compress = contract.signMessage(Safe3Util.sha256(compressedSafe3Addr), privateKey)
-        let sig4uncompress = contract.signMessage(Safe3Util.sha256(uncompressedSafe3Addr), privateKey)
-
-        // print(compressedPublicKey.toHexString())
-        // print(compressedSafe3Addr)
-        // print(uncompressedPublicKey.toHexString())
-        // print(uncompressedSafe3Addr)
-        // print(sig4compress.toHexString())
-        // print(sig4uncompress.toHexString())
 
         var txids: [String] = []
-        // 1. compressed address
-        if ((try await existMasterNodeNeedToRedeem(compressedSafe3Addr))) {
-            txids.append(try await contract.call(privateKey: privateKey, method: "redeemMasterNode", parameters: [compressedPublicKey, sig4compress, enode]))
+        if (availablePubKeys.count != 0) {
+            txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemAvailable", parameters: [availablePubKeys, availableSigs]))
         }
-        // 2. uncompressed address
-        if ((try await existMasterNodeNeedToRedeem(uncompressedSafe3Addr))) {
-            txids.append(try await contract.call(privateKey: privateKey, method: "redeemMasterNode", parameters: [uncompressedPublicKey, sig4uncompress, enode]))
+        if (lockedPubKeys.count != 0) {
+            txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemLocked", parameters: [lockedPubKeys, lockedSigs]))
         }
         return txids
+    }
+
+    func batchRedeemMasterNode(callerPrivateKey: Data, privateKeys: [Data], enodes: [String]) async throws -> String {
+        var publicKey: Data
+        var safe3Addr: String
+        var sig: Data
+        var pubKeys: [Data] = []
+        var sigs: [Data] = []
+        for privateKey in privateKeys {
+            publicKey = Safe3Util.getCompressedPublicKey(privateKey)
+            safe3Addr = Safe3Util.getSafe3Addr(publicKey)
+            sig = contract.signMessage(Safe3Util.sha256(safe3Addr), privateKey)
+            if ((try await existMasterNodeNeedToRedeem(safe3Addr))) {
+                pubKeys.append(publicKey)
+                sigs.append(sig)
+            }
+
+            publicKey = Safe3Util.getUncompressedPublicKey(privateKey)
+            safe3Addr = Safe3Util.getSafe3Addr(publicKey)
+            sig = contract.signMessage(Safe3Util.sha256(safe3Addr), privateKey)
+            if ((try await existMasterNodeNeedToRedeem(safe3Addr))) {
+                pubKeys.append(publicKey)
+                sigs.append(sig)
+            }
+        }
+
+        if (pubKeys.count != 0) {
+            return try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemMasterNode", parameters: [pubKeys, sigs, enodes])
+        }
+        return ""
     }
 
     func getAllAvailableNum() async throws -> BigUInt {
