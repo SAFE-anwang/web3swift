@@ -6,7 +6,7 @@ import XCTest
 
 class SuperNodeTest: LocalTestCase {
     func testRegister() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         // sn: 0xa5cec2b8cda30da3f3170b4505cb44226b6c9dd2, privateKey: 0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010
         let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
         let addr = EthereumAddress("0xa5cec2b8cda30da3f3170b4505cb44226b6c9dd2")!
@@ -20,7 +20,7 @@ class SuperNodeTest: LocalTestCase {
     }
 
     func testAppendRegister() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         // sn: 0xa5cec2b8cda30da3f3170b4505cb44226b6c9dd2, privateKey: 0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010
         let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
         let value = BigUInt("500000000000000000000")
@@ -31,7 +31,7 @@ class SuperNodeTest: LocalTestCase {
     }
 
     func testTurnRegister() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         // sn: 0xa5cec2b8cda30da3f3170b4505cb44226b6c9dd2, privateKey: 0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010
         let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
         let addr = EthereumAddress("0xa5cec2b8cda30da3f3170b4505cb44226b6c9dd2")!
@@ -41,7 +41,7 @@ class SuperNodeTest: LocalTestCase {
     }
 
     func testChangeAddress() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         // sn: 0xa5cec2b8cda30da3f3170b4505cb44226b6c9dd2, privateKey: 0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010
         let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
         let addr = EthereumAddress("0xa5cec2b8cda30da3f3170b4505cb44226b6c9dd2")!
@@ -52,7 +52,7 @@ class SuperNodeTest: LocalTestCase {
     }
 
     func testChangeName() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         // sn: 0xa5cec2b8cda30da3f3170b4505cb44226b6c9dd2, privateKey: 0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010
         let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
         let addr = EthereumAddress("0xd6ebea69f2d81b9ca259c0b6ed3d9ad6aa206ef1")!
@@ -63,7 +63,7 @@ class SuperNodeTest: LocalTestCase {
     }
 
     func testChangeEnode() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         // sn: 0xa5cec2b8cda30da3f3170b4505cb44226b6c9dd2, privateKey: 0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010
         let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
         let addr = EthereumAddress("0xd6ebea69f2d81b9ca259c0b6ed3d9ad6aa206ef1")!
@@ -74,7 +74,7 @@ class SuperNodeTest: LocalTestCase {
     }
 
     func testChangeDescription() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         // sn: 0xa5cec2b8cda30da3f3170b4505cb44226b6c9dd2, privateKey: 0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010
         let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
         let addr = EthereumAddress("0xd6ebea69f2d81b9ca259c0b6ed3d9ad6aa206ef1")!
@@ -85,63 +85,63 @@ class SuperNodeTest: LocalTestCase {
     }
 
     func testGetInfo() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let ret = try await web3.safe4.supernode.getInfo(EthereumAddress("0xd6ebea69f2d81b9ca259c0b6ed3d9ad6aa206ef1")!)
         print(ret)
         XCTAssertTrue(ret.id > 0)
     }
 
     func testGetInfoByID() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let ret = try await web3.safe4.supernode.getInfoByID(5)
         print(ret)
         XCTAssertTrue(ret.id > 0)
     }
 
     func testGetNum() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let ret = try await web3.safe4.supernode.getNum()
         print(ret)
         XCTAssertTrue(ret > 0)
     }
 
     func testGetAll() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let ret = try await web3.safe4.supernode.getAll(0, 100)
         print(ret)
         XCTAssertTrue(ret.count > 0)
     }
 
     func testGetAddrNum4Creator() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let ret = try await web3.safe4.supernode.getAddrNum4Creator(EthereumAddress("0xd6ebea69f2d81b9ca259c0b6ed3d9ad6aa206ef1")!)
         print(ret)
         XCTAssertTrue(ret > 0)
     }
 
     func testGetAddrs4Creator() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let ret = try await web3.safe4.supernode.getAddrs4Creator(EthereumAddress("0xd6ebea69f2d81b9ca259c0b6ed3d9ad6aa206ef1")!, 0, 100)
         print(ret)
         XCTAssertTrue(ret.count > 0)
     }
 
     func testGetTops() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let ret = try await web3.safe4.supernode.getTops()
         print(ret)
         XCTAssertTrue(ret.count > 0)
     }
 
     func testGetOfficials() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let ret = try await web3.safe4.supernode.getOfficials()
         print(ret)
         XCTAssertTrue(ret.count > 0)
     }
 
     func testExist() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let addr = EthereumAddress("0xd6ebea69f2d81b9ca259c0b6ed3d9ad6aa206ef1")!
         let ret = try await web3.safe4.supernode.exist(addr)
         print(ret)
@@ -149,21 +149,21 @@ class SuperNodeTest: LocalTestCase {
     }
 
     func testExistID() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let ret = try await web3.safe4.supernode.existID(5)
         print(ret)
         XCTAssertTrue(ret)
     }
 
     func testExistName() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let ret = try await web3.safe4.supernode.existName("sn-5")
         print(ret)
         XCTAssertTrue(ret)
     }
 
     func testExistEnode() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let enode = "enode://f687439863fce1ff70dc40bec0fe5ea1ad0833a2672c29590b0aa9001e1488013e42e8adc96a6a9312ed1426d6bea47026d057df57a5856970b207afac771f09@10.0.0.5:30303"
         let ret = try await web3.safe4.supernode.existEnode(enode)
         print(ret)
@@ -171,7 +171,7 @@ class SuperNodeTest: LocalTestCase {
     }
 
     func testExistLockID() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let addr = EthereumAddress("0xd6ebea69f2d81b9ca259c0b6ed3d9ad6aa206ef1")!
         let ret = try await web3.safe4.supernode.existLockID(addr, 12)
         print(ret)
@@ -179,7 +179,7 @@ class SuperNodeTest: LocalTestCase {
     }
 
     func testIsValid() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let addr = EthereumAddress("0xd6ebea69f2d81b9ca259c0b6ed3d9ad6aa206ef1")!
         let ret = try await web3.safe4.supernode.isValid(addr)
         print(ret)
@@ -187,7 +187,7 @@ class SuperNodeTest: LocalTestCase {
     }
 
     func testIsFormal() async throws {
-        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666667))
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let addr = EthereumAddress("0x4d244c17d2a957f4a150408f8f4d19382ae8e2c8")!
         let ret = try await web3.safe4.supernode.isFormal(addr)
         print(ret)
