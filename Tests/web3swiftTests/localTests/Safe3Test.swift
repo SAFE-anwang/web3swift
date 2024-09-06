@@ -12,7 +12,8 @@ class Safe3Test: LocalTestCase {
         privateKeys.append(Data(hex: "0xfdf1182eedfb83e9d93eaee6e5b5a690cd315168ddbbef1228f3be4c2fb46d06"))
         privateKeys.append(Data(hex: "0xe94a71ba0a84651da768ba4ec433f322d4327f084797d2d0d7c1d62fdd4eb3d1"))
         privateKeys.append(Data(hex: "0xc11fce126d5c751395e5aa4e53f38419c97dfdd1de58851bc0b7289f83d518e0"))
-        let ret = try await web3.safe4.safe3.batchRedeemSafe3(callerPrivateKey: callerPrivateKey, privateKeys: privateKeys)
+        let targetAddr = EthereumAddress("0x9432920f31f9f81b8d0002231c111d7e5eb1e4e1")!
+        let ret = try await web3.safe4.safe3.batchRedeemSafe3(callerPrivateKey: callerPrivateKey, privateKeys: privateKeys, targetAddr: targetAddr)
         print(ret)
         XCTAssertTrue(ret.count > 0)
     }
@@ -28,7 +29,8 @@ class Safe3Test: LocalTestCase {
         for _ in privateKeys {
             enodes.append("enode://NodeInfo@127.0.0.1:8545")
         }
-        let txid = try await web3.safe4.safe3.batchRedeemMasterNode(callerPrivateKey: callerPrivateKey, privateKeys: privateKeys, enodes: enodes)
+        let targetAddr = EthereumAddress("0x9432920f31f9f81b8d0002231c111d7e5eb1e4e1")!
+        let txid = try await web3.safe4.safe3.batchRedeemMasterNode(callerPrivateKey: callerPrivateKey, privateKeys: privateKeys, enodes: enodes, targetAddr: targetAddr)
         print(txid)
         XCTAssertTrue(txid.count > 0)
     }

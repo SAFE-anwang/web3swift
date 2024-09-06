@@ -11,7 +11,7 @@ public class Safe3 {
 }
 
 public extension Safe3 {
-    func batchRedeemSafe3(callerPrivateKey: Data, privateKeys: [Data]) async throws -> [String] {
+    func batchRedeemSafe3(callerPrivateKey: Data, privateKeys: [Data], targetAddr: EthereumAddress) async throws -> [String] {
         var publicKey: Data
         var safe3Addr: String
         var sig: Data
@@ -22,7 +22,10 @@ public extension Safe3 {
         for privateKey in privateKeys {
             publicKey = Safe3Util.getCompressedPublicKey(privateKey)
             safe3Addr = Safe3Util.getSafe3Addr(publicKey)
-            sig = contract.signMessage(Safe3Util.sha256(safe3Addr), privateKey)
+            var buf: Data = Data()
+            buf.append(safe3Addr.data(using: .utf8)!)
+            buf.append(targetAddr.addressData)
+            sig = contract.signMessage(buf.sha256(), privateKey)
             if ((try await existAvailableNeedToRedeem(safe3Addr))) {
                 availablePubKeys.append(publicKey)
                 availableSigs.append(sig)
@@ -34,7 +37,10 @@ public extension Safe3 {
 
             publicKey = Safe3Util.getUncompressedPublicKey(privateKey)
             safe3Addr = Safe3Util.getSafe3Addr(publicKey)
-            sig = contract.signMessage(Safe3Util.sha256(safe3Addr), privateKey)
+            buf.removeAll()
+            buf.append(safe3Addr.data(using: .utf8)!)
+            buf.append(targetAddr.addressData)
+            sig = contract.signMessage(buf.sha256(), privateKey)
             if ((try await existAvailableNeedToRedeem(safe3Addr))) {
                 availablePubKeys.append(publicKey)
                 availableSigs.append(sig)
@@ -47,15 +53,15 @@ public extension Safe3 {
 
         var txids: [String] = []
         if (availablePubKeys.count != 0) {
-            txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemAvailable", parameters: [availablePubKeys, availableSigs]))
+            txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemAvailable", parameters: [availablePubKeys, availableSigs, targetAddr]))
         }
         if (lockedPubKeys.count != 0) {
-            txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemLocked", parameters: [lockedPubKeys, lockedSigs]))
+            txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemLocked", parameters: [lockedPubKeys, lockedSigs, targetAddr]))
         }
         return txids
     }
 
-    func batchRedeemMasterNode(callerPrivateKey: Data, privateKeys: [Data], enodes: [String]) async throws -> String {
+    func batchRedeemMasterNode(callerPrivateKey: Data, privateKeys: [Data], enodes: [String], targetAddr: EthereumAddress) async throws -> String {
         var publicKey: Data
         var safe3Addr: String
         var sig: Data
@@ -64,7 +70,10 @@ public extension Safe3 {
         for privateKey in privateKeys {
             publicKey = Safe3Util.getCompressedPublicKey(privateKey)
             safe3Addr = Safe3Util.getSafe3Addr(publicKey)
-            sig = contract.signMessage(Safe3Util.sha256(safe3Addr), privateKey)
+            var buf: Data = Data()
+            buf.append(safe3Addr.data(using: .utf8)!)
+            buf.append(targetAddr.addressData)
+            sig = contract.signMessage(buf.sha256(), privateKey)
             if ((try await existMasterNodeNeedToRedeem(safe3Addr))) {
                 pubKeys.append(publicKey)
                 sigs.append(sig)
@@ -72,7 +81,10 @@ public extension Safe3 {
 
             publicKey = Safe3Util.getUncompressedPublicKey(privateKey)
             safe3Addr = Safe3Util.getSafe3Addr(publicKey)
-            sig = contract.signMessage(Safe3Util.sha256(safe3Addr), privateKey)
+            buf.removeAll()
+            buf.append(safe3Addr.data(using: .utf8)!)
+            buf.append(targetAddr.addressData)
+            sig = contract.signMessage(buf.sha256(), privateKey)
             if ((try await existMasterNodeNeedToRedeem(safe3Addr))) {
                 pubKeys.append(publicKey)
                 sigs.append(sig)
@@ -80,7 +92,7 @@ public extension Safe3 {
         }
 
         if (pubKeys.count != 0) {
-            return try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemMasterNode", parameters: [pubKeys, sigs, enodes])
+            return try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemMasterNode", parameters: [pubKeys, sigs, enodes, targetAddr])
         }
         return ""
     }
