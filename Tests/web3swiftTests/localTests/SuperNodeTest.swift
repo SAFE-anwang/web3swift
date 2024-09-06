@@ -133,6 +133,13 @@ class SuperNodeTest: LocalTestCase {
         XCTAssertTrue(ret.count > 0)
     }
 
+    func testGetTops4Creator() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let ret = try await web3.safe4.supernode.getTops4Creator(EthereumAddress("0xd6ebea69f2d81b9ca259c0b6ed3d9ad6aa206ef1")!)
+        print(ret)
+        XCTAssertTrue(ret.count > 0)
+    }
+
     func testGetOfficials() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let ret = try await web3.safe4.supernode.getOfficials()
@@ -174,6 +181,15 @@ class SuperNodeTest: LocalTestCase {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let addr = EthereumAddress("0xd6ebea69f2d81b9ca259c0b6ed3d9ad6aa206ef1")!
         let ret = try await web3.safe4.supernode.existLockID(addr, 12)
+        print(ret)
+        XCTAssertTrue(ret)
+    }
+
+    func testExistFounder() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let addr = EthereumAddress("0xd6ebea69f2d81b9ca259c0b6ed3d9ad6aa206ef1")!
+        let founder = EthereumAddress("0xd6ebea69f2d81b9ca259c0b6ed3d9ad6aa206ef1")!
+        let ret = try await web3.safe4.supernode.existFounder(addr, founder)
         print(ret)
         XCTAssertTrue(ret)
     }
