@@ -88,4 +88,16 @@ public extension MasterNode {
     func isValid(_ addr: EthereumAddress) async throws -> Bool {
         return try await storage.query("isValid", parameters: [addr], outType: Bool.self)
     }
+
+    func existNodeAddress(_ addr: EthereumAddress) async throws -> Bool {
+        return try await storage.query("existNodeAddress", parameters: [addr], outType: Bool.self)
+    }
+
+    func existNodeEnode(_ enode: String) async throws -> Bool {
+        return try await storage.query("existNodeEnode", parameters: [enode], outType: Bool.self)
+    }
+
+    func existNodeFounder(_ addr: EthereumAddress) async throws -> Bool {
+        return try await storage.query("existNodeFounder", parameters: [addr], outType: Bool.self)
+    }
 }
