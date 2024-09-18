@@ -28,7 +28,8 @@ public class Safe4Contract {
     }
 
     func getGasLimit(_ tx: CodableTransaction) async throws -> BigUInt {
-        return try await web3.eth.estimateGas(for: tx, onBlock: .pending)
+        let gasLimit = try await web3.eth.estimateGas(for: tx, onBlock: .pending)
+        return gasLimit * 6 / 5
     }
 
     func signMessage(_ message: Data, _ privateKey: Data) -> Data {
