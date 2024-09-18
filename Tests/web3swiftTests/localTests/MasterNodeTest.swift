@@ -121,6 +121,20 @@ class MasterNodeTest: LocalTestCase {
         XCTAssertTrue(ret.count > 0)
     }
 
+    func testGetAddrNum4Partner() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let ret = try await web3.safe4.masternode.getAddrNum4Partner(EthereumAddress("0x536c8071e1083639fc7fac7fc8db04a698c409a1")!)
+        print(ret)
+        XCTAssertTrue(ret > 0)
+    }
+
+    func testGetAddrs4Partner() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let ret = try await web3.safe4.masternode.getAddrs4Partner(EthereumAddress("0x536c8071e1083639fc7fac7fc8db04a698c409a1")!, 0, 100)
+        print(ret)
+        XCTAssertTrue(ret.count > 0)
+    }
+
     func testGetOfficials() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let ret = try await web3.safe4.masternode.getOfficials()
@@ -155,6 +169,14 @@ class MasterNodeTest: LocalTestCase {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let addr = EthereumAddress("0xd52114c4071b5bfbd06a657a3db538bfd559a481")!
         let ret = try await web3.safe4.masternode.existLockID(addr, 8)
+        print(ret)
+        XCTAssertTrue(ret)
+    }
+
+    func testExistFounder() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let founder = EthereumAddress("0xd52114c4071b5bfbd06a657a3db538bfd559a481")!
+        let ret = try await web3.safe4.masternode.existFounder(founder)
         print(ret)
         XCTAssertTrue(ret)
     }
