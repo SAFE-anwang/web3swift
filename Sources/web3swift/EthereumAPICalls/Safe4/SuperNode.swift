@@ -65,6 +65,14 @@ public extension SuperNode {
         return try await storage.query("getAddrs4Creator", parameters: [creator, start, count], outType: [EthereumAddress].self)
     }
 
+    func getAddrNum4Partner(_ partner: EthereumAddress) async throws -> BigUInt {
+        return try await storage.query("getAddrNum4Partner", parameters: [partner], outType: BigUInt.self)
+    }
+
+    func getAddrs4Partner(_ partner: EthereumAddress, _ start: BigUInt, _ count: BigUInt) async throws -> [EthereumAddress] {
+        return try await storage.query("getAddrs4Partner", parameters: [partner, start, count], outType: [EthereumAddress].self)
+    }
+
     func getTops() async throws -> [EthereumAddress] {
         return try await storage.query("getTops", outType: [EthereumAddress].self)
     }
@@ -97,8 +105,8 @@ public extension SuperNode {
         return try await storage.query("existLockID", parameters: [addr, lockID], outType: Bool.self)
     }
 
-    func existFounder(_ addr: EthereumAddress, _ founder: EthereumAddress) async throws -> Bool {
-        return try await storage.query("existFounder", parameters: [addr, founder], outType: Bool.self)
+    func existFounder(_ founder: EthereumAddress) async throws -> Bool {
+        return try await storage.query("existFounder", parameters: [founder], outType: Bool.self)
     }
 
     func isValid(_ addr: EthereumAddress) async throws -> Bool {
