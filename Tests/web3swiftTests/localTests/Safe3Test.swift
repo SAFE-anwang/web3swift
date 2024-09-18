@@ -5,6 +5,24 @@ import XCTest
 @testable import web3swift
 
 class Safe3Test: LocalTestCase {
+    func testAddSafe3() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let callerPrivateKey = Data(hex: "0x78cc1725d7e8ce249d6849b36785bb7bae695b667da24240cf29caf10c14473a")
+        let safe3Addr = "XhWH1XBihbA2kBxTqKRmpL38ij2Cjms8oj"
+        let txids = try await web3.safe4.safe3.addSafe3(callerPrivateKey: callerPrivateKey, safe3Addr: safe3Addr)
+        print(txids)
+        XCTAssertTrue(txids.count > 0)
+    }
+
+    func testResetSafe3() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let callerPrivateKey = Data(hex: "0x78cc1725d7e8ce249d6849b36785bb7bae695b667da24240cf29caf10c14473a")
+        let safe3Addr = "XhWH1XBihbA2kBxTqKRmpL38ij2Cjms8oj"
+        let txid = try await web3.safe4.safe3.resetSafe3(callerPrivateKey: callerPrivateKey, safe3Addr: safe3Addr)
+        print(txid)
+        XCTAssertNotEqual(txid, nil)
+    }
+
     func testBatchRedeemSafe() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let callerPrivateKey = Data(hex: "0x020274d1ddb0d006eb9a3c4871091c191c46a01c3fb8f09cfd1ae9192f893712")
