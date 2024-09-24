@@ -67,14 +67,12 @@ public extension Proposal {
         return try await contract.query("getAll", parameters: [start, count], outType: [BigUInt].self)
     }
 
-    func getMineNum(_ privateKey: Data) async throws -> BigUInt {
-        let from = contract.getAddress(privateKey)!
-        return try await contract.query("getMineNum", from: from, outType: BigUInt.self)
+    func getMineNum(_ creator: EthereumAddress) async throws -> BigUInt {
+        return try await contract.query("getMineNum", parameters: [creator], outType: BigUInt.self)
     }
 
-    func getMines(_ privateKey: Data, _ start: BigUInt, _ count: BigUInt) async throws -> [BigUInt] {
-        let from = contract.getAddress(privateKey)!
-        return try await contract.query("getMines", parameters: [start, count], from: from, outType: [BigUInt].self)
+    func getMines(_ creator: EthereumAddress, _ start: BigUInt, _ count: BigUInt) async throws -> [BigUInt] {
+        return try await contract.query("getMines", parameters: [creator, start, count], outType: [BigUInt].self)
     }
 
     func exist(_ id: BigUInt) async throws -> Bool {
