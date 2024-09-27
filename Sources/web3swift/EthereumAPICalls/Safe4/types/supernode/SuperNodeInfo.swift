@@ -18,7 +18,11 @@ public struct SuperNodeInfo: Safe4T {
 
     public init(id: BigUInt, name: String, addr: EthereumAddress, creator: EthereumAddress, enode: String, description: String, isOfficial: Bool, state: BigUInt, founders: [SuperNodeMemberInfo], incentivePlan: SuperNodeIncentivePlan, lastRewardHeight: BigUInt, createHeight: BigUInt, updateHeight: BigUInt) {
         self.id = id
-        self.name = name
+        if name.count == 0 {
+            self.name = "Unknown Name"
+        } else {
+            self.name = name
+        }
         self.addr = addr
         self.creator = creator
         self.enode = enode
