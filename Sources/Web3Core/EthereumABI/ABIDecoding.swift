@@ -78,7 +78,7 @@ extension ABIDecoder {
             let length = UInt64(BigUInt(dataSlice))
             guard elementItself.count >= 32 + length else {break}
             dataSlice = elementItself[32 ..< 32 + length]
-            guard let string = String(data: dataSlice, encoding: .utf8) else {break}
+            guard let string = String(data: dataSlice, encoding: .utf8) else {return ("", type.memoryUsage)}
             return (string, type.memoryUsage)
         case .dynamicBytes:
             guard elementItself.count >= 32 else {break}
