@@ -14,12 +14,12 @@ public extension Safe3 {
     // add Safe3 record, just for testnet
     func addSafe3(callerPrivateKey: Data, safe3Addr: String) async throws -> [String] {
         var txids: [String] = []
-        var amount = (arc4random() % 5 + 1) * 100000000
+        var amount = (arc4random() % 5 + 1) * 1000000000000000000
         txids.append(try await contract.call(privateKey: callerPrivateKey, method: "addAvailable", parameters: [safe3Addr, amount]))
 
         let count = arc4random() % 5 + 1
         for _ in 1...count {
-            amount = (arc4random() % 10 + 1) * 100000000
+            amount = (arc4random() % 10 + 1) * 1000000000000000000
             txids.append(try await contract.call(privateKey: callerPrivateKey, method: "addLocked", parameters: [safe3Addr, amount]))
         }
 
