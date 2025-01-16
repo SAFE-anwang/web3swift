@@ -34,7 +34,7 @@ public struct MasterNodeInfo: Safe4T {
 
     public init?(_ result: [String: Any]) {
         guard let values = result["0"] as? [Any] else { return nil }
-        guard values.count == 12,
+        guard values.count == 13,
               let id = values[0] as? BigUInt,
               let addr = values[1] as? EthereumAddress,
               let creator = values[2] as? EthereumAddress,

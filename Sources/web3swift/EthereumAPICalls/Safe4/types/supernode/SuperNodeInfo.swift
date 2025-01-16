@@ -40,7 +40,7 @@ public struct SuperNodeInfo: Safe4T {
 
     public init?(_ result: [String: Any]) {
         guard let values = result["0"] as? [Any] else { return nil }
-        guard values.count == 13,
+        guard values.count == 14,
               let id = values[0] as? BigUInt,
               let name = values[1] as? String,
               let addr = values[2] as? EthereumAddress,
