@@ -101,6 +101,10 @@ public extension MasterNode {
         return try await storage.query("isValid", parameters: [addr], outType: Bool.self)
     }
 
+    func isUnion(_ addr: EthereumAddress) async throws -> Bool {
+        return try await storage.query("isUnion", parameters: [addr], outType: Bool.self)
+    }
+
     func existNodeAddress(_ addr: EthereumAddress) async throws -> Bool {
         return try await storage.query("existNodeAddress", parameters: [addr], outType: Bool.self)
     }

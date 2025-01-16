@@ -12,11 +12,12 @@ public struct SuperNodeInfo: Safe4T {
     public var state: BigUInt
     public var founders: [SuperNodeMemberInfo]
     public var incentivePlan: SuperNodeIncentivePlan
+    public var isUnion: Bool
     public var lastRewardHeight: BigUInt
     public var createHeight: BigUInt
     public var updateHeight: BigUInt
 
-    public init(id: BigUInt, name: String, addr: EthereumAddress, creator: EthereumAddress, enode: String, description: String, isOfficial: Bool, state: BigUInt, founders: [SuperNodeMemberInfo], incentivePlan: SuperNodeIncentivePlan, lastRewardHeight: BigUInt, createHeight: BigUInt, updateHeight: BigUInt) {
+    public init(id: BigUInt, name: String, addr: EthereumAddress, creator: EthereumAddress, enode: String, description: String, isOfficial: Bool, state: BigUInt, founders: [SuperNodeMemberInfo], incentivePlan: SuperNodeIncentivePlan, isUnion: Bool, lastRewardHeight: BigUInt, createHeight: BigUInt, updateHeight: BigUInt) {
         self.id = id
         if name.count == 0 {
             self.name = "Unknown Name"
@@ -31,6 +32,7 @@ public struct SuperNodeInfo: Safe4T {
         self.state = state
         self.founders = founders
         self.incentivePlan = incentivePlan
+        self.isUnion = isUnion
         self.lastRewardHeight = lastRewardHeight
         self.createHeight = createHeight
         self.updateHeight = updateHeight
@@ -49,11 +51,12 @@ public struct SuperNodeInfo: Safe4T {
               let state = values[7] as? BigUInt,
               let founders = SuperNodeInfo.parseFounders(values[8]),
               let incentivePlan = SuperNodeInfo.parseIncentivePlan(values[9]),
-              let lastRewardHeight = values[10] as? BigUInt,
-              let createHeight = values[11] as? BigUInt,
-              let updateHeight = values[12] as? BigUInt
+              let isUnion = values[10] as? Bool,
+              let lastRewardHeight = values[11] as? BigUInt,
+              let createHeight = values[12] as? BigUInt,
+              let updateHeight = values[13] as? BigUInt
          else { return nil }
-         self.init(id: id, name: name, addr: addr, creator: creator, enode: enode, description: description, isOfficial: isOfficial, state: state, founders: founders, incentivePlan: incentivePlan, lastRewardHeight: lastRewardHeight, createHeight: createHeight, updateHeight: updateHeight)
+         self.init(id: id, name: name, addr: addr, creator: creator, enode: enode, description: description, isOfficial: isOfficial, state: state, founders: founders, incentivePlan: incentivePlan, isUnion: isUnion, lastRewardHeight: lastRewardHeight, createHeight: createHeight, updateHeight: updateHeight)
     }
 
     static func parseFounders(_ value: Any) -> [SuperNodeMemberInfo]? {

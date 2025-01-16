@@ -189,6 +189,14 @@ class MasterNodeTest: LocalTestCase {
         XCTAssertTrue(ret)
     }
 
+    func testIsUnion() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let addr = EthereumAddress("0xd52114c4071b5bfbd06a657a3db538bfd559a481")!
+        let ret = try await web3.safe4.masternode.isUnion(addr)
+        print(ret)
+        XCTAssertTrue(!ret)
+    }
+
     func testExistNodeAddress() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let addr = EthereumAddress("0xd52114c4071b5bfbd06a657a3db538bfd559a481")!

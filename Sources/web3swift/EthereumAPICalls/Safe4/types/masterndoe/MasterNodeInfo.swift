@@ -11,11 +11,12 @@ public struct MasterNodeInfo: Safe4T {
     public var state: BigUInt
     public var founders: [MasterNodeMemberInfo]
     public var incentivePlan: MasterNodeIncentivePlan
+    public var isUnion: Bool
     public var lastRewardHeight: BigUInt
     public var createHeight: BigUInt
     public var updateHeight: BigUInt
 
-    public init(id: BigUInt, addr: EthereumAddress, creator: EthereumAddress, enode: String, description: String, isOfficial: Bool, state: BigUInt, founders: [MasterNodeMemberInfo], incentivePlan: MasterNodeIncentivePlan, lastRewardHeight: BigUInt, createHeight: BigUInt, updateHeight: BigUInt) {
+    public init(id: BigUInt, addr: EthereumAddress, creator: EthereumAddress, enode: String, description: String, isOfficial: Bool, state: BigUInt, founders: [MasterNodeMemberInfo], incentivePlan: MasterNodeIncentivePlan, isUnion: Bool, lastRewardHeight: BigUInt, createHeight: BigUInt, updateHeight: BigUInt) {
         self.id = id
         self.addr = addr
         self.creator = creator
@@ -25,6 +26,7 @@ public struct MasterNodeInfo: Safe4T {
         self.state = state
         self.founders = founders
         self.incentivePlan = incentivePlan
+        self.isUnion = isUnion
         self.lastRewardHeight = lastRewardHeight
         self.createHeight = createHeight
         self.updateHeight = updateHeight
@@ -42,11 +44,12 @@ public struct MasterNodeInfo: Safe4T {
               let state = values[6] as? BigUInt,
               let founders = MasterNodeInfo.parseFounders(values[7]),
               let incentivePlan = MasterNodeInfo.parseIncentivePlan(values[8]),
-              let lastRewardHeight = values[9] as? BigUInt,
-              let createHeight = values[10] as? BigUInt,
-              let updateHeight = values[11] as? BigUInt
+              let isUnion = values[9] as? Bool,
+              let lastRewardHeight = values[10] as? BigUInt,
+              let createHeight = values[11] as? BigUInt,
+              let updateHeight = values[12] as? BigUInt
          else { return nil }
-         self.init(id: id, addr: addr, creator: creator, enode: enode, description: description, isOfficial: isOfficial, state: state, founders: founders, incentivePlan: incentivePlan, lastRewardHeight: lastRewardHeight, createHeight: createHeight, updateHeight: updateHeight)
+         self.init(id: id, addr: addr, creator: creator, enode: enode, description: description, isOfficial: isOfficial, state: state, founders: founders, incentivePlan: incentivePlan, isUnion: isUnion, lastRewardHeight: lastRewardHeight, createHeight: createHeight, updateHeight: updateHeight)
     }
 
     static func parseFounders(_ value: Any) -> [MasterNodeMemberInfo]? {
