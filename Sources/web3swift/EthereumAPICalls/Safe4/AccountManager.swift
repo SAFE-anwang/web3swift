@@ -39,6 +39,10 @@ public extension AccountManager {
         return try await contract.call(privateKey: privateKey, method: "addLockDay", parameters: [id, day])
     }
 
+    func getImmatureAmount(_ addr: EthereumAddress) async throws -> BigUInt {
+        return try await contract.queryStruct("getImmatureAmount", parameters: [addr], outType: BigUint.self)
+    }
+
     func getTotalAmount(_ addr: EthereumAddress) async throws -> AccountAmountInfo {
         return try await contract.queryStruct("getTotalAmount", parameters: [addr], outType: AccountAmountInfo.self)
     }

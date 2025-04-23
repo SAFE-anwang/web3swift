@@ -64,6 +64,13 @@ class AccountManagerTest: LocalTestCase {
         XCTAssertNotEqual(txid, nil)
     }
 
+    func testGetImmatureAmount() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let ret = try await web3.safe4.accountmanager.getImmatureAmount(EthereumAddress("0x64ae0d18085d0c3ec202a208e96bc2fc24e4a7e8")!)
+        print(ret)
+        XCTAssertTrue(ret > 0)
+    }
+
     func testGetTotalAmount() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let ret = try await web3.safe4.accountmanager.getTotalAmount(EthereumAddress("0x64ae0d18085d0c3ec202a208e96bc2fc24e4a7e8")!)
