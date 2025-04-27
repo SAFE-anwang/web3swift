@@ -40,7 +40,7 @@ public extension AccountManager {
     }
 
     func getImmatureAmount(_ addr: EthereumAddress) async throws -> BigUInt {
-        return try await contract.query("getImmatureAmount", parameters: [addr], outType: BigUint.self)
+        return try await contract.query("getImmatureAmount", parameters: [addr], outType: BigUInt.self)
     }
 
     func getTotalAmount(_ addr: EthereumAddress) async throws -> AccountAmountInfo {
