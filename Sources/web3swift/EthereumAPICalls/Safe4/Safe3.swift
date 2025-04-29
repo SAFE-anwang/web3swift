@@ -19,6 +19,7 @@ public extension Safe3 {
         var availableSigs: [Data] = []
         var lockedPubKeys: [Data] = []
         var lockedSigs: [Data] = []
+        var lockedNums: [BigUInt] = []
         for privateKey in privateKeys {
             publicKey = Safe3Util.getCompressedPublicKey(privateKey)
             safe3Addr = Safe3Util.getSafe3Addr(publicKey)
@@ -33,6 +34,7 @@ public extension Safe3 {
             if ((try await existLockedNeedToRedeem(safe3Addr))) {
                 lockedPubKeys.append(publicKey)
                 lockedSigs.append(sig)
+                lockedNums.append(try await getLockedNum(safe3Addr))
             }
 
             publicKey = Safe3Util.getUncompressedPublicKey(privateKey)
@@ -48,20 +50,67 @@ public extension Safe3 {
             if ((try await existLockedNeedToRedeem(safe3Addr))) {
                 lockedPubKeys.append(publicKey)
                 lockedSigs.append(sig)
+                lockedNums.append(try await getLockedNum(safe3Addr))
             }
         }
 
         var txids: [String] = []
         if (availablePubKeys.count != 0) {
-            txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemAvailable", parameters: [availablePubKeys, availableSigs, targetAddr]))
+            var i = 0
+            while i < availablePubKeys.count / 20 {
+                txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemAvailable", parameters: [Array(availablePubKeys[i*20..<(i+1)*20]), Array(availableSigs[i*20..<(i+1)*20]), targetAddr]))
+                i += 1
+            }
+            if (availablePubKeys.count % 20 != 0) {
+                txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemAvailable", parameters: [Array(availablePubKeys[i*20..<availablePubKeys.count]), Array(availableSigs[i*20..<availableSigs.count]), targetAddr]))
+            }
         }
         if (lockedPubKeys.count != 0) {
-            txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemLocked", parameters: [lockedPubKeys, lockedSigs, targetAddr]))
+            while true {
+                var totalLockedNum: BigUInt = 0
+                var tempPubkeys: [Data] = []
+                var tempSigs: [Data] = []
+                var i = 0
+                while i < lockedNums.count {
+                    totalLockedNum += lockedNums[i]
+                    if (totalLockedNum == 0) {
+                        i += 1
+                        continue
+                    }
+                    if (totalLockedNum >= 100) {
+                        tempPubkeys.append(lockedPubKeys[i])
+                        tempSigs.append(lockedSigs[i])
+                        txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemLocked", parameters: [tempPubkeys, tempSigs, targetAddr]))
+                        if (totalLockedNum == 100) {
+                            lockedNums[i] = 0
+                        } else {
+                            lockedNums[i] = totalLockedNum - 100
+                        }
+                        break
+                    } else {
+                        lockedNums[i] = 0
+                        tempPubkeys.append(lockedPubKeys[i])
+                        tempSigs.append(lockedSigs[i])
+                        if (tempPubkeys.count == 20) {
+                            txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemLocked", parameters: [tempPubkeys, tempSigs, targetAddr]))
+                            break
+                        }
+                        i += 1
+                    }
+                }
+                if (totalLockedNum == 0) {
+                    break
+                }
+                if (i == lockedNums.count) {
+                    txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemLocked", parameters: [tempPubkeys, tempSigs, targetAddr]))
+                    break
+                }
+            }
         }
         return txids
     }
 
-    func batchRedeemMasterNode(callerPrivateKey: Data, privateKeys: [Data], enodes: [String], targetAddr: EthereumAddress) async throws -> String {
+    func batchRedeemMasterNode(callerPrivateKey: Data, privateKeys: [Data], enodes: [String], targetAddr: EthereumAddress) async throws -> [String] {
         var publicKey: Data
         var safe3Addr: String
         var sig: Data
@@ -91,10 +140,18 @@ public extension Safe3 {
             }
         }
 
+        var txids: [String] = []
         if (pubKeys.count != 0) {
-            return try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemMasterNode", parameters: [pubKeys, sigs, enodes, targetAddr])
+            var i = 0
+            while i < pubKeys.count / 20 {
+                txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemMasterNode", parameters: [Array(pubKeys[i*20..<(i+1)*20]), Array(sigs[i*20..<(i+1)*20]), Array(enodes[i*20..<(i+1)*20]), targetAddr]))
+                i += 1
+            }
+            if (pubKeys.count % 20 != 0) {
+                txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemMasterNode", parameters: [Array(pubKeys[i*20..<pubKeys.count]), Array(sigs[i*20..<sigs.count]), Array(enodes[i*20..<enodes.count]), targetAddr]))
+            }
         }
-        return ""
+        return txids
     }
 
     func getAllAvailableNum() async throws -> BigUInt {
