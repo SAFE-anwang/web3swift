@@ -178,7 +178,8 @@ public class Web3 {
         var snvoteInstance: SNVote?
         var proposalInstance: Proposal?
         var safe3Instance: Safe3?
-
+        var safe4SwapInstance: Safe4Swap?
+        
         public var sysproperty: SysProperty {
             let syspropertyInstance = syspropertyInstance ?? SysProperty(provider: provider, web3: web3)
             self.syspropertyInstance = syspropertyInstance
@@ -221,6 +222,12 @@ public class Web3 {
             return safe3Instance
         }
 
+        public var safe4Swap: Safe4Swap {
+            let safe4SwapInstance = safe4SwapInstance ?? Safe4Swap(provider: provider, web3: web3)
+            self.safe4SwapInstance = safe4SwapInstance
+            return safe4SwapInstance
+        }
+        
         public init(provider prov: Web3Provider, web3 web3instance: Web3) {
             provider = prov
             web3 = web3instance

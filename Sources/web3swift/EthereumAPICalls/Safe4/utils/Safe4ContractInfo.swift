@@ -20,4 +20,5 @@ public class Safe4ContractAddress {
     public static var SNVoteContractAddr: String = "0x0000000000000000000000000000000000001040"
     public static var ProposalContractAddr: String = "0x0000000000000000000000000000000000001070"
     public static var Safe3ContractAddr: String = "0x0000000000000000000000000000000000001090"
+    public static var Safe4SwapContractAddress: String = "0x0000000000000000000000000000000000001101"
 }
