@@ -9,12 +9,12 @@ public class Safe4Swap {
         contract = Safe4Contract(provider: provider, web3: web3, contractAddr: Safe4ContractAddress.Safe4SwapContractAddress, contractABI: Safe4ContractABI.AccountManagerABI)
     }
 }
-public extension Safe4Swap {
-    func safe4ToSrc20(privateKey: Data, value: BigUInt) async throws -> String {
+extension Safe4Swap {
+    public func safe4ToSrc20(privateKey: Data, value: BigUInt) async throws -> String {
         return try await contract.call(privateKey: privateKey, value: value, method: "deposit")
     }
     
-    func src20ToSafe4(privateKey: Data, value: BigUInt) async throws -> String {
+    public func src20ToSafe4(privateKey: Data, value: BigUInt) async throws -> String {
         return try await contract.call(privateKey: privateKey, method: "withdraw", parameters: [value])
     }
 }
