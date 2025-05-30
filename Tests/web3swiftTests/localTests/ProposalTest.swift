@@ -115,6 +115,13 @@ class ProposalTest: LocalTestCase {
         XCTAssertTrue(ret.count > 0)
     }
 
+    func testGetRewardIDs() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let ret = try await web3.safe4.proposal.getRewardIDs(1)
+        print(ret)
+        XCTAssertTrue(ret.count > 0)
+    }
+
     func testGetNum() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let ret = try await web3.safe4.proposal.getNum()

@@ -63,6 +63,10 @@ public extension Proposal {
         return try await contract.queryStructList("getVoteInfo", parameters: [id, start, count], outType: ProposalVoteInfo.self)
     }
 
+    func getRewardIDs(_ id: BigUInt) async throws -> [BigUInt] {
+        return try await contract.query("getRewardIDs", parameters: [id], outType: [BigUInt].self)
+    }
+
     func getNum() async throws -> BigUInt {
         return try await contract.query("getNum", outType: BigUInt.self)
     }
