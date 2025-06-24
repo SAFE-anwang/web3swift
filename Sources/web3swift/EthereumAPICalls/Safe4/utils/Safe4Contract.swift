@@ -3,14 +3,12 @@ import BigInt
 import Web3Core
 
 public class Safe4Contract {
-    private var provider: Web3Provider
     private var web3: Web3
     private var contract: Web3.Contract
 
     static private var NullAddr = EthereumAddress("0x0000000000000000000000000000000000000000")!
 
-    init(provider: Web3Provider, web3: Web3, contractAddr: String, contractABI: String) {
-        self.provider = provider
+    init(web3: Web3, contractAddr: String, contractABI: String) {
         self.web3 = web3
         self.contract = web3.contract(contractABI, at: EthereumAddress(contractAddr))!
     }
@@ -46,7 +44,7 @@ public class Safe4Contract {
             type: .legacy,
             to: contract.contract.address!,
             nonce: nonce,
-            chainID: provider.network!.chainID,
+            chainID: web3.provider.network!.chainID,
             value: value,
             gasPrice: gasPrice
         )

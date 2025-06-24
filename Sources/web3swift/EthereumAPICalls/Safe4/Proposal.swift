@@ -5,8 +5,8 @@ import Web3Core
 public class Proposal {
     private var contract: Safe4Contract
 
-    init(provider: Web3Provider, web3: Web3) {
-        contract = Safe4Contract(provider: provider, web3: web3, contractAddr: Safe4ContractAddress.ProposalContractAddr, contractABI: Safe4ContractABI.ProposalABI)
+    init(web3: Web3) {
+        contract = Safe4Contract(web3: web3, contractAddr: Safe4ContractAddress.ProposalContractAddr, contractABI: Safe4ContractABI.ProposalABI)
     }
 }
 

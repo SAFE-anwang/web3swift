@@ -6,9 +6,9 @@ public class SuperNode {
     private let logic: Safe4Contract
     private let storage: Safe4Contract
 
-    init(provider: Web3Provider, web3: Web3) {
-        logic = Safe4Contract(provider: provider, web3: web3, contractAddr: Safe4ContractAddress.SuperNodeLogicContractAddr, contractABI: Safe4ContractABI.SuperNodeLogicABI)
-        storage = Safe4Contract(provider: provider, web3: web3, contractAddr: Safe4ContractAddress.SuperNodeStorageContractAddr, contractABI: Safe4ContractABI.SuperNodeStorageABI)
+    init(web3: Web3) {
+        logic = Safe4Contract(web3: web3, contractAddr: Safe4ContractAddress.SuperNodeLogicContractAddr, contractABI: Safe4ContractABI.SuperNodeLogicABI)
+        storage = Safe4Contract(web3: web3, contractAddr: Safe4ContractAddress.SuperNodeStorageContractAddr, contractABI: Safe4ContractABI.SuperNodeStorageABI)
     }
 }
 

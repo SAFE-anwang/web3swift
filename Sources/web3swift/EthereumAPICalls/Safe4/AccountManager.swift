@@ -5,8 +5,8 @@ import Web3Core
 public class AccountManager {
     private var contract: Safe4Contract
 
-    init(provider: Web3Provider, web3: Web3) {
-        contract = Safe4Contract(provider: provider, web3: web3, contractAddr: Safe4ContractAddress.AccountManagerContractAddr, contractABI: Safe4ContractABI.AccountManagerABI)
+    init(web3: Web3) {
+        contract = Safe4Contract(web3: web3, contractAddr: Safe4ContractAddress.AccountManagerContractAddr, contractABI: Safe4ContractABI.AccountManagerABI)
     }
 }
 

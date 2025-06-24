@@ -5,11 +5,9 @@ import Web3Core
 public class SysProperty {
     private var contract: Safe4Contract
 
-    init(provider: Web3Provider, web3: Web3) {
-        contract = Safe4Contract(provider: provider, web3: web3, contractAddr: Safe4ContractAddress.PropertyContractAddr, contractABI: Safe4ContractABI.PropertyABI)
+    init(web3: Web3) {
+        contract = Safe4Contract(web3: web3, contractAddr: Safe4ContractAddress.PropertyContractAddr, contractABI: Safe4ContractABI.PropertyABI)
     }
-
-
 }
 
 public extension SysProperty {

@@ -163,13 +163,12 @@ public class Web3 {
 
     var safe4Instance: Web3.Safe4?
     public var safe4: Web3.Safe4 {
-        let safe4Instance = safe4Instance ?? Web3.Safe4(provider: provider, web3: self)
+        let safe4Instance = safe4Instance ?? Web3.Safe4(web3: self)
         self.safe4Instance = safe4Instance
         return safe4Instance
     }
 
     public class Safe4 {
-        var provider: Web3Provider
         var web3: Web3
         var syspropertyInstance: SysProperty?
         var accountmanagerInstance: AccountManager?
@@ -181,55 +180,54 @@ public class Web3 {
         var safe4SwapInstance: Safe4Swap?
         
         public var sysproperty: SysProperty {
-            let syspropertyInstance = syspropertyInstance ?? SysProperty(provider: provider, web3: web3)
+            let syspropertyInstance = syspropertyInstance ?? SysProperty(web3: web3)
             self.syspropertyInstance = syspropertyInstance
             return syspropertyInstance
         }
 
         public var accountmanager: AccountManager {
-            let accountmanagerInstance = accountmanagerInstance ?? AccountManager(provider: provider, web3: web3)
+            let accountmanagerInstance = accountmanagerInstance ?? AccountManager(web3: web3)
             self.accountmanagerInstance = accountmanagerInstance
             return accountmanagerInstance
         }
 
         public var masternode: MasterNode {
-            let masternodeInstance = masternodeInstance ?? MasterNode(provider: provider, web3: web3)
+            let masternodeInstance = masternodeInstance ?? MasterNode(web3: web3)
             self.masternodeInstance = masternodeInstance
             return masternodeInstance
         }
 
         public var supernode: SuperNode {
-            let supernodeInstance = supernodeInstance ?? SuperNode(provider: provider, web3: web3)
+            let supernodeInstance = supernodeInstance ?? SuperNode(web3: web3)
             self.supernodeInstance = supernodeInstance
             return supernodeInstance
         }
 
         public var snvote: SNVote {
-            let snvoteInstance = snvoteInstance ?? SNVote(provider: provider, web3: web3)
+            let snvoteInstance = snvoteInstance ?? SNVote(web3: web3)
             self.snvoteInstance = snvoteInstance
             return snvoteInstance
         }
 
         public var proposal: Proposal {
-            let proposalInstance = proposalInstance ?? Proposal(provider: provider, web3: web3)
+            let proposalInstance = proposalInstance ?? Proposal(web3: web3)
             self.proposalInstance = proposalInstance
             return proposalInstance
         }
 
         public var safe3: Safe3 {
-            let safe3Instance = safe3Instance ?? Safe3(provider: provider, web3: web3)
+            let safe3Instance = safe3Instance ?? Safe3(web3: web3)
             self.safe3Instance = safe3Instance
             return safe3Instance
         }
 
         public var safe4Swap: Safe4Swap {
-            let safe4SwapInstance = safe4SwapInstance ?? Safe4Swap(provider: provider, web3: web3)
+            let safe4SwapInstance = safe4SwapInstance ?? Safe4Swap(web3: web3)
             self.safe4SwapInstance = safe4SwapInstance
             return safe4SwapInstance
         }
         
-        public init(provider prov: Web3Provider, web3 web3instance: Web3) {
-            provider = prov
+        public init(web3 web3instance: Web3) {
             web3 = web3instance
         }
     }
