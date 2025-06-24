@@ -297,6 +297,15 @@ public struct Utilities {
         completeSignature.append(Data([unmarshalledSignature.v]))
         return completeSignature
     }
+
+    public static func calculateContractAddress(sender: EthereumAddress, nonce: BigUInt) -> String {
+        let senderData = Data(hex: sender._address.stripHexPrefix())
+        let nonceData = nonce.serialize()
+        let rlpData = RLP.encode([senderData, nonceData])!
+        let hash = rlpData.sha3(.keccak256)
+        let addrData = hash[12...]
+        return "0x" + addrData.toHexString()
+    }
 }
 
 extension Utilities {
