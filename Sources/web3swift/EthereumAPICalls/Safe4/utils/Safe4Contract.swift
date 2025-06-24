@@ -38,12 +38,23 @@ public class Safe4Contract {
 
     func deploy(privateKey: Data, bytecode: Data, parameters: [Any] = []) async throws -> [String] {
         let from = getAddress(privateKey)!
-        let deployTx = contract.prepareDeploy(bytecode: bytecode, parameters: parameters)!
-        deployTx.transaction.from = from
-        deployTx.transaction.gasLimit = try await getGasLimit(deployTx.transaction)
-        try deployTx.transaction.sign(privateKey: privateKey)
-        let result = try await web3.eth.send(raw: deployTx.transaction.encode(for: .transaction)!)
-        return [deployTx.transaction.to.address, result.hash]
+        let nonce = try await getNonce(from)
+        let gasPrice = try await getGasPrice()
+        var tx = CodableTransaction(
+            type: .legacy,
+            to: EthereumAddress("0x", type: .contractDeployment)!,
+            nonce: nonce,
+            chainID: web3.provider.network!.chainID,
+            value: 0,
+            gasPrice: gasPrice
+        )
+        tx.from = from
+        tx.data = contract.contract.deploy(bytecode: bytecode, constructor: contract.contract.constructor, parameters: parameters, extraData: nil)!
+        tx.gasLimit = try await getGasLimit(tx)
+        try tx.sign(privateKey: privateKey)
+        let result = try await web3.eth.send(raw: tx.encode(for: .transaction)!)
+        let contractAddr = Utilities.calculateContractAddress(sender: from, nonce: nonce)
+        return [contractAddr, result.hash]
     }
 
     func call(privateKey: Data, value: BigUInt = 0, method: String, parameters: [Any] = []) async throws -> String {
