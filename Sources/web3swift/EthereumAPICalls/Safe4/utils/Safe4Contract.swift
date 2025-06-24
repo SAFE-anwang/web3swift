@@ -36,6 +36,16 @@ public class Safe4Contract {
         return compressedSignature!
     }
 
+    func deploy(privateKey: Data, bytecode: Data, parameters: [Any] = []) async throws -> [String] {
+        let from = getAddress(privateKey)!
+        let deployTx = contract.prepareDeploy(bytecode: bytecode, parameters: parameters)!
+        deployTx.transaction.from = from
+        deployTx.transaction.gasLimit = try await getGasLimit(deployTx.transaction)
+        try deployTx.transaction.sign(privateKey: privateKey)
+        let result = try await web3.eth.send(raw: deployTx.transaction.encode(for: .transaction)!)
+        return [deployTx.transaction.to.address, result.hash]
+    }
+
     func call(privateKey: Data, value: BigUInt = 0, method: String, parameters: [Any] = []) async throws -> String {
         let from = getAddress(privateKey)!
         let nonce = try await getNonce(from)
