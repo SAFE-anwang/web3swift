@@ -33,8 +33,16 @@ public extension MasterNode {
         return try await logic.call(privateKey: privateKey, method: "changeEnode", parameters: [addr, enode])
     }
 
+    func changeEnodeByID(privateKey: Data, id: BigUInt, enode: String) async throws -> String {
+        return try await logic.call(privateKey: privateKey, method: "changeEnodeByID", parameters: [id, enode])
+    }
+
     func changeDescription(privateKey: Data, addr: EthereumAddress, description: String) async throws -> String {
         return try await logic.call(privateKey: privateKey, method: "changeDescription", parameters: [addr, description])
+    }
+
+    func changeDescriptionByID(privateKey: Data, id: BigUInt, description: String) async throws -> String {
+        return try await logic.call(privateKey: privateKey, method: "changeDescriptionByID", parameters: [id, description])
     }
 
     func getInfo(_ addr: EthereumAddress) async throws -> MasterNodeInfo {

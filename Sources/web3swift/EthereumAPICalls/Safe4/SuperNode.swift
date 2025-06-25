@@ -33,12 +33,28 @@ public extension SuperNode {
         return try await logic.call(privateKey: privateKey, method: "changeName", parameters: [addr, name])
     }
 
+    func changeNameByID(privateKey: Data, id: BigUInt, name: String) async throws -> String {
+        return try await logic.call(privateKey: privateKey, method: "changeNameByID", parameters: [id, name])
+    }
+
     func changeEnode(privateKey: Data, addr: EthereumAddress, enode: String) async throws -> String {
         return try await logic.call(privateKey: privateKey, method: "changeEnode", parameters: [addr, enode])
     }
 
+    func changeEnodeByID(privateKey: Data, id: BigUInt, enode: String) async throws -> String {
+        return try await logic.call(privateKey: privateKey, method: "changeEnodeByID", parameters: [id, enode])
+    }
+
     func changeDescription(privateKey: Data, addr: EthereumAddress, description: String) async throws -> String {
         return try await logic.call(privateKey: privateKey, method: "changeDescription", parameters: [addr, description])
+    }
+
+    func changeDescriptionByID(privateKey: Data, id: BigUInt, description: String) async throws -> String {
+        return try await logic.call(privateKey: privateKey, method: "changeDescriptionByID", parameters: [id, description])
+    }
+
+    func changeIncentivePlan(privateKey: Data, id: BigUInt, creatorIncentive: BigUInt, partnerIncentive: BigUInt, voterIncentive: BigUInt) async throws -> String {
+        return try await logic.call(privateKey: privateKey, method: "changeIncentivePlan", parameters: [id, creatorIncentive, partnerIncentive, voterIncentive])
     }
 
     func getInfo(_ addr: EthereumAddress) async throws -> SuperNodeInfo {
