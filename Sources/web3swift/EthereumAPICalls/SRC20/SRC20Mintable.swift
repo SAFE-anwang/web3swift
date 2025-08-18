@@ -9,11 +9,11 @@ public class SRC20Mintable {
 
     private var contract: Safe4Contract
 
-    init(web3: Web3) {
+    public init(web3: Web3) {
         contract = Safe4Contract(web3: web3, contractAddr: "", contractABI: abi)
     }
 
-    init(web3: Web3, contractAddr: String) {
+    public init(web3: Web3, contractAddr: String) {
         contract = Safe4Contract(web3: web3, contractAddr: contractAddr, contractABI: abi)
     }
 }
