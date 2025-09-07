@@ -21,4 +21,7 @@ public class Safe4ContractAddress {
     public static var ProposalContractAddr: String = "0x0000000000000000000000000000000000001070"
     public static var Safe3ContractAddr: String = "0x0000000000000000000000000000000000001090"
     public static var Safe4SwapContractAddress: String = "0x0000000000000000000000000000000000001101"
+    
+    public static var AccountManagerContractAddr_4aC6: String = "0xA7DBB85CB123106B0d227a317D00A53574694aC6"
+    public static var AccountManagerContractAddr_91b2: String = "0xF6A2C019beF11825E73ed219c7b0582324dE91b2"
 }

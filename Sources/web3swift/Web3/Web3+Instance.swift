@@ -171,7 +171,7 @@ public class Web3 {
     public class Safe4 {
         var web3: Web3
         var syspropertyInstance: SysProperty?
-        var accountmanagerInstance: AccountManager?
+//        var accountmanagerInstance: AccountManager?
         var masternodeInstance: MasterNode?
         var supernodeInstance: SuperNode?
         var snvoteInstance: SNVote?
@@ -185,12 +185,27 @@ public class Web3 {
             return syspropertyInstance
         }
 
-        public var accountmanager: AccountManager {
-            let accountmanagerInstance = accountmanagerInstance ?? AccountManager(web3: web3)
-            self.accountmanagerInstance = accountmanagerInstance
-            return accountmanagerInstance
-        }
-
+//        public var accountmanager: AccountManager {
+//            let accountmanagerInstance = accountmanagerInstance ?? AccountManager(web3: web3, type: .native)
+//            self.accountmanagerInstance = accountmanagerInstance
+//            return accountmanagerInstance
+//        }
+        
+        public lazy var accountmanager: AccountManager = {
+            let manager = AccountManager(web3: web3, type: .native)
+            return manager
+        }()
+        
+        public lazy var accountmanager_01: AccountManager = {
+            let manager = AccountManager(web3: web3, type: .smallAmount_01)
+            return manager
+        }()
+        
+        public lazy var accountmanager_02: AccountManager = {
+            let manager = AccountManager(web3: web3, type: .smallAmount_02)
+            return manager
+        }()
+        
         public var masternode: MasterNode {
             let masternodeInstance = masternodeInstance ?? MasterNode(web3: web3)
             self.masternodeInstance = masternodeInstance
@@ -229,6 +244,14 @@ public class Web3 {
         
         public init(web3 web3instance: Web3) {
             web3 = web3instance
+        }
+        
+        public func accountmanager(type: AccountManager.ContractType) -> AccountManager {
+            switch type {
+            case .native: return accountmanager
+            case .smallAmount_01: return accountmanager_01
+            case .smallAmount_02: return accountmanager_02
+            }
         }
     }
 }
