@@ -106,9 +106,9 @@ public extension AccountManager {
             case .native:
                 Safe4ContractAddress.AccountManagerContractAddr
             case .smallAmount_01:
-                Safe4ContractAddress.AccountManagerContractAddr_4aC6
-            case .smallAmount_02:
                 Safe4ContractAddress.AccountManagerContractAddr_91b2
+            case .smallAmount_02:
+                Safe4ContractAddress.AccountManagerContractAddr_4aC6
             }
         }
     }
