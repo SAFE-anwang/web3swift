@@ -26,6 +26,17 @@ class SRC20Test: LocalTestCase {
         XCTAssertNotEqual(txid, nil)
     }
 
+    func testApprove() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let src20 = SRC20(web3: web3, contractAddr: "0x6b3914aF517A56D47A9997397325B7F37414A49c") // SRC20: ABCD, contract-addr: 0x6b3914aF517A56D47A9997397325B7F37414A49c, total: 10000, creator: 0x4c207825db1c46Dd836123E58ecaE85de7025879
+        let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
+        let spender = EthereumAddress("0x4f203092FB68732D8484c099a72dDc5a195f26f9")!
+        let amount = BigUInt("1000000000000000000")
+        let txid = try await src20.approve(privateKey: privateKey, spender: spender, amount: amount) // approve 1 ABCD to SRC20LockFactory: 0x4f203092FB68732D8484c099a72dDc5a195f26f9
+        print(txid)
+        XCTAssertNotEqual(txid, nil)
+    }
+
     func testName() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
@@ -73,6 +84,16 @@ class SRC20Test: LocalTestCase {
         let balance = try await src20.balanceOf(account: account)
         print(balance)
         XCTAssertNotEqual(balance, nil)
+    }
+
+    func testAllowance() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let src20 = SRC20(web3: web3, contractAddr: "0x6b3914aF517A56D47A9997397325B7F37414A49c") // SRC20: ABCD, contract-addr: 0x6b3914aF517A56D47A9997397325B7F37414A49c, total: 10000, creator: 0x4c207825db1c46Dd836123E58ecaE85de7025879
+        let owner = EthereumAddress("0xa5CEc2B8CdA30dA3F3170b4505CB44226b6c9Dd2")!
+        let spender = EthereumAddress("0x4f203092FB68732D8484c099a72dDc5a195f26f9")!
+        let allowance = try await src20.allowance(owner: owner, spender: spender)
+        print(allowance)
+        XCTAssertNotEqual(allowance, nil)
     }
 
     func testSetOrgName() async throws {
