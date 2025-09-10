@@ -31,6 +31,14 @@ public extension SRC20Mintable {
         return try await contract.call(privateKey: privateKey, method: "transfer", parameters: [to, amount])
     }
 
+    func approve(privateKey: Data, spender: EthereumAddress, amount: BigUInt) async throws -> String {
+        return try await contract.call(privateKey: privateKey, method: "approve", parameters: [spender, amount])
+    }
+
+    func transferFrom(privateKey: Data, from: EthereumAddress, to: EthereumAddress, amount: BigUInt) async throws -> String {
+        return try await contract.call(privateKey: privateKey, method: "transferFrom", parameters: [from, to, amount])
+    }
+
     func name() async throws -> String {
         return try await contract.query("name", outType: String.self)
     }
@@ -53,6 +61,10 @@ public extension SRC20Mintable {
 
     func balanceOf(account: EthereumAddress) async throws -> BigUInt {
         return try await contract.query("balanceOf", parameters: [account], outType: BigUInt.self)
+    }
+
+    func allowance(owner: EthereumAddress, spender: EthereumAddress) async throws -> BigUInt {
+        return try await contract.query("allowance", parameters: [owner, spender], outType: BigUInt.self)
     }
 
     func setOrgName(privateKey: Data, orgName: String) async throws -> String {
