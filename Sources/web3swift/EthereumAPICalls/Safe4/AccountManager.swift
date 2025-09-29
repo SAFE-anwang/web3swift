@@ -7,7 +7,8 @@ public class AccountManager {
     private(set) var type: ContractType
     
     init(web3: Web3, type: ContractType) {
-        contract = Safe4Contract(web3: web3, contractAddr: type.contractAddr, contractABI: Safe4ContractABI.AccountManagerABI)
+        let chainID = web3.provider.network?.chainID ?? 6666666
+        contract = Safe4Contract(web3: web3, contractAddr: type.contractAddr(chainID: chainID), contractABI: Safe4ContractABI.AccountManagerABI)
         self.type = type
     }
 }
@@ -45,6 +46,14 @@ public extension AccountManager {
 
     func getLockedIDs(_ addr: EthereumAddress, _ start: BigUInt, _ count: BigUInt) async throws -> [BigUInt] {
         return try await contract.query("getLockedIDs", parameters: [addr, start, count], outType: [BigUInt].self)
+    }
+    
+    func getRecordByID(_ id: BigUInt) async throws -> AccountRecord {
+        return try await contract.queryStruct("getRecordByID", parameters: [id], outType: AccountRecord.self)
+    }
+
+    func getRecordUseInfo(_ id: BigUInt) async throws -> RecordUseInfo {
+        return try await contract.queryStruct("getRecordUseInfo", parameters: [id], outType: RecordUseInfo.self)
     }
 }
 
@@ -85,14 +94,6 @@ public extension AccountManager {
     func getRecord0(_ addr: EthereumAddress) async throws -> AccountRecord {
         return try await contract.queryStruct("getRecord0", parameters: [addr], outType: AccountRecord.self)
     }
-
-    func getRecordByID(_ id: BigUInt) async throws -> AccountRecord {
-        return try await contract.queryStruct("getRecordByID", parameters: [id], outType: AccountRecord.self)
-    }
-
-    func getRecordUseInfo(_ id: BigUInt) async throws -> RecordUseInfo {
-        return try await contract.queryStruct("getRecordUseInfo", parameters: [id], outType: RecordUseInfo.self)
-    }
 }
 
 public extension AccountManager {
@@ -101,15 +102,30 @@ public extension AccountManager {
         case smallAmount_01 // [0.1, 1)
         case smallAmount_02 // [0.01, 0.1)
         
-        var contractAddr: String {
+        var contractAddr_Test: String {
             switch self {
             case .native:
                 Safe4ContractAddress.AccountManagerContractAddr
             case .smallAmount_01:
-                Safe4ContractAddress.AccountManagerContractAddr_91b2
+                Safe4ContractAddress.AccountManagerContractAddr_small_01_Test
             case .smallAmount_02:
-                Safe4ContractAddress.AccountManagerContractAddr_4aC6
+                Safe4ContractAddress.AccountManagerContractAddr_small_02_Test
             }
+        }
+        
+        var contractAddr_Main: String {
+            switch self {
+            case .native:
+                Safe4ContractAddress.AccountManagerContractAddr
+            case .smallAmount_01:
+                Safe4ContractAddress.AccountManagerContractAddr_small_01_Main
+            case .smallAmount_02:
+                Safe4ContractAddress.AccountManagerContractAddr_small_02_Main
+            }
+        }
+        
+        func contractAddr(chainID: BigUInt) -> String {
+            chainID == 6666666 ? contractAddr_Test : contractAddr_Main
         }
     }
 }
