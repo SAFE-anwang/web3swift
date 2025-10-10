@@ -10,7 +10,7 @@ import BigInt
 /// Structure capable of carying the parameters for any transaction type.
 /// While most fields in this struct are optional, they are not necessarily
 /// optional for the type of transaction they apply to.
-public struct CodableTransaction {
+public struct CodableTransaction: Sendable {
     /// internal access only. The transaction envelope object itself that contains all the transaction data
     /// and type specific implementation
     internal var envelope: AbstractEnvelope
@@ -156,7 +156,7 @@ public struct CodableTransaction {
             let result = self.attemptSignature(privateKey: privateKey, useExtraEntropy: useExtraEntropy)
             if result { return }
         }
-        throw AbstractKeystoreError.invalidAccountError
+        throw AbstractKeystoreError.invalidAccountError("Failed to sign transaction with given private key.")
     }
 
     // actual signing algorithm implementation
