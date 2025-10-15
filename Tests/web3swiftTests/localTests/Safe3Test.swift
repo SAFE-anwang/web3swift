@@ -91,6 +91,27 @@ class Safe3Test: LocalTestCase {
         XCTAssertTrue(infos.count > 0)
     }
 
+    func testGetAllPettyNum() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let num = try await web3.safe4.safe3.getAllPettyNum()
+        print(num)
+        XCTAssertTrue(num > 0)
+    }
+
+    func testGetPettyInfos() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let infos = try await web3.safe4.safe3.getPettyInfos(0, 10)
+        print(infos)
+        XCTAssertTrue(infos.count > 0)
+    }
+
+    func testGetPettyInfo() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let info = try await web3.safe4.safe3.getPettyInfo("XbdnSBZKFhKjjXj95xcwQMmexA6sB3pgEp")
+        print(info)
+        XCTAssertTrue(info.safe3Addr.count > 0)
+    }
+
     func testExistAvailableNeedToRedeem() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let flag = try await web3.safe4.safe3.existAvailableNeedToRedeem("XuPmDoaNb6rbNywefkTbESHXiYqNpYvaPU")
@@ -108,6 +129,13 @@ class Safe3Test: LocalTestCase {
     func testExistMasterNodeNeedToRedeem() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let flag = try await web3.safe4.safe3.existMasterNodeNeedToRedeem("Xm7bqZeKBooWuQxb2EWjJxN2qjQVgN4AuU")
+        print(flag)
+        XCTAssertTrue(flag)
+    }
+
+    func testExistPettyNeedToRedeem() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let flag = try await web3.safe4.safe3.existPettyNeedToRedeem("XbdnSBZKFhKjjXj95xcwQMmexA6sB3pgEp")
         print(flag)
         XCTAssertTrue(flag)
     }
