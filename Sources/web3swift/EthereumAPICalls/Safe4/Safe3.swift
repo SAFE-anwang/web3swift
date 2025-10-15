@@ -20,6 +20,8 @@ public extension Safe3 {
         var lockedPubKeys: [Data] = []
         var lockedSigs: [Data] = []
         var lockedNums: [BigUInt] = []
+        var pettyPubKeys: [Data] = []
+        var pettySigs: [Data] = []
         for privateKey in privateKeys {
             publicKey = Safe3Util.getCompressedPublicKey(privateKey)
             safe3Addr = Safe3Util.getSafe3Addr(publicKey)
@@ -36,6 +38,10 @@ public extension Safe3 {
                 lockedSigs.append(sig)
                 lockedNums.append(try await getLockedNum(safe3Addr))
             }
+            if (try await existPettyNeedToRedeem(safe3Addr)) {
+                pettyPubKeys.append(publicKey)
+                pettySigs.append(sig)
+            }
 
             publicKey = Safe3Util.getUncompressedPublicKey(privateKey)
             safe3Addr = Safe3Util.getSafe3Addr(publicKey)
@@ -51,6 +57,10 @@ public extension Safe3 {
                 lockedPubKeys.append(publicKey)
                 lockedSigs.append(sig)
                 lockedNums.append(try await getLockedNum(safe3Addr))
+            }
+            if (try await existPettyNeedToRedeem(safe3Addr)) {
+                pettyPubKeys.append(publicKey)
+                pettySigs.append(sig)
             }
         }
 
@@ -105,6 +115,16 @@ public extension Safe3 {
                     txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemLocked", parameters: [tempPubkeys, tempSigs, targetAddr]))
                     break
                 }
+            }
+        }
+        if (pettyPubKeys.count != 0) {
+            var i = 0
+            while i < pettyPubKeys.count / 20 {
+                txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemPetty", parameters: [Array(pettyPubKeys[i*20..<(i+1)*20]), Array(pettySigs[i*20..<(i+1)*20]), targetAddr]))
+                i += 1
+            }
+            if (pettyPubKeys.count % 20 != 0) {
+                txids.append(try await contract.call(privateKey: callerPrivateKey, method: "batchRedeemPetty", parameters: [Array(pettyPubKeys[i*20..<pettyPubKeys.count]), Array(pettySigs[i*20..<pettySigs.count]), targetAddr]))
             }
         }
         return txids
@@ -186,6 +206,18 @@ public extension Safe3 {
         return try await contract.queryStructList("getLockedInfo", parameters: [safe3Addr, start, count], outType: LockedSafe3Info.self)
     }
 
+    func getAllPettyNum() async throws -> BigUInt {
+        return try await contract.query("getAllPettyNum", outType: BigUInt.self)
+    }
+
+    func getPettyInfos(_ start: BigUInt, _ count: BigUInt) async throws -> [AvailableSafe3Info] {
+        return try await contract.queryStructList("getPettyInfos", parameters: [start, count], outType: AvailableSafe3Info.self)
+    }
+
+    func getPettyInfo(_ safe3Addr: String) async throws -> AvailableSafe3Info {
+        return try await contract.queryStruct("getPettyInfo", parameters: [safe3Addr], outType: AvailableSafe3Info.self)
+    }
+
     func existAvailableNeedToRedeem(_ safe3Addr: String) async throws -> Bool {
         return try await contract.query("existAvailableNeedToRedeem", parameters: [safe3Addr], outType: Bool.self)
     }
@@ -196,5 +228,9 @@ public extension Safe3 {
 
     func existMasterNodeNeedToRedeem(_ safe3Addr: String) async throws -> Bool {
         return try await contract.query("existMasterNodeNeedToRedeem", parameters: [safe3Addr], outType: Bool.self)
+    }
+
+    func existPettyNeedToRedeem(_ safe3Addr: String) async throws -> Bool {
+        return try await contract.query("existPettyNeedToRedeem", parameters: [safe3Addr], outType: Bool.self)
     }
 }
