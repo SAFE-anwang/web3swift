@@ -11,7 +11,8 @@ public struct SNVoteRetInfo: Safe4T {
     }
 
     public init?(_ result: [String: Any]) {
-        if(result.count != 3) {
+        print(result.count)
+        if(result.count != 2) {
             return nil
         }
         guard let addrs = result["0"] as? [EthereumAddress] else { return nil }

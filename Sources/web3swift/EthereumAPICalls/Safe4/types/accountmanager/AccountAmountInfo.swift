@@ -10,7 +10,7 @@ public struct AccountAmountInfo: Safe4T {
     }
 
     public init?(_ result: [String: Any]) {
-        if(result.count != 3) {
+        if(result.count != 2) {
             return nil
         }
         guard let amount = result["0"] as? BigUInt else { return nil }
