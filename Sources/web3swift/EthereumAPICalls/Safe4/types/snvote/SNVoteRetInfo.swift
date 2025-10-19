@@ -11,7 +11,6 @@ public struct SNVoteRetInfo: Safe4T {
     }
 
     public init?(_ result: [String: Any]) {
-        print(result.count)
         if(result.count != 2) {
             return nil
         }
