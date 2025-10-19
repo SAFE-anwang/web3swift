@@ -105,22 +105,22 @@ public extension AccountManager {
         var contractAddr_Test: String {
             switch self {
             case .native:
-                Safe4ContractAddress.AccountManagerContractAddr
+                return Safe4ContractAddress.AccountManagerContractAddr
             case .smallAmount_01:
-                Safe4ContractAddress.AccountManagerContractAddr_small_01_Test
+                return Safe4ContractAddress.AccountManagerContractAddr_small_01_Test
             case .smallAmount_02:
-                Safe4ContractAddress.AccountManagerContractAddr_small_02_Test
+                return Safe4ContractAddress.AccountManagerContractAddr_small_02_Test
             }
         }
         
         var contractAddr_Main: String {
             switch self {
             case .native:
-                Safe4ContractAddress.AccountManagerContractAddr
+                return Safe4ContractAddress.AccountManagerContractAddr
             case .smallAmount_01:
-                Safe4ContractAddress.AccountManagerContractAddr_small_01_Main
+                return Safe4ContractAddress.AccountManagerContractAddr_small_01_Main
             case .smallAmount_02:
-                Safe4ContractAddress.AccountManagerContractAddr_small_02_Main
+                return Safe4ContractAddress.AccountManagerContractAddr_small_02_Main
             }
         }
         
