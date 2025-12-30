@@ -98,6 +98,13 @@ class SuperNodeTest: LocalTestCase {
         XCTAssertTrue(ret.id > 0)
     }
 
+    func testGetDisableHeight() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let ret = try await web3.safe4.supernode.getDisableHeight(26)
+        print(ret)
+        XCTAssertTrue(ret > 0)
+    }
+
     func testGetNum() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let ret = try await web3.safe4.supernode.getNum()

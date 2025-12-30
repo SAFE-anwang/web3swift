@@ -65,6 +65,10 @@ public extension SuperNode {
         return try await storage.queryStruct("getInfoByID", parameters: [id], outType: SuperNodeInfo.self)
     }
 
+    func getDisableHeight(_ id: BigUInt) async throws -> BigUInt {
+        return try await storage.query("getDisableHeight", parameters: [id], outType: BigUInt.self)
+    }
+
     func getNum() async throws -> BigUInt {
         return try await storage.query("getNum", outType: BigUInt.self)
     }
