@@ -67,14 +67,6 @@ public extension AccountManager {
         return try await contract.call(privateKey: privateKey, value: value, method: "batchDeposit4Multi", parameters: [addrs, times, spaceDay, startDay])
     }
 
-    func withdraw(privateKey: Data) async throws -> String {
-        return try await contract.call(privateKey: privateKey, method: "withdraw")
-    }
-
-    func transfer(privateKey: Data, to: EthereumAddress, amount: BigUInt, lockDay: BigUInt) async throws -> String {
-        return try await contract.call(privateKey: privateKey, method: "transfer", parameters: [to, amount, lockDay])
-    }
-
     func addLockDay(privateKey: Data, id: BigUInt, day: BigUInt) async throws -> String {
         return try await contract.call(privateKey: privateKey, method: "addLockDay", parameters: [id, day])
     }
