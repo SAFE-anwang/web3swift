@@ -27,6 +27,10 @@ public extension SNVote {
         return try await contract.call(privateKey: privateKey, method: "proxyVote", parameters: [snAddr])
     }
 
+    func getRecordByID(_ id: BigUInt) async throws -> VoteRecord {
+        return try await contract.queryStruct("getRecordByID", parameters: [id], outType: VoteRecord.self)
+    }
+
     func getAmount4Voter(_ voterAddr: EthereumAddress) async throws -> BigUInt {
         return try await contract.query("getAmount4Voter", parameters: [voterAddr], outType: BigUInt.self)
     }
