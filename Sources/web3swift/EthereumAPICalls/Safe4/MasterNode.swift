@@ -53,6 +53,10 @@ public extension MasterNode {
         return try await storage.queryStruct("getInfoByID", parameters: [id], outType: MasterNodeInfo.self)
     }
 
+    func getIDsByEnode(_ enode: String) async throws -> [BigUInt] {
+        return try await storage.query("getIDsByEnode", parameters: [enode], outType: [BigUInt].self)
+    }
+
     func getNext() async throws -> EthereumAddress {
         return try await storage.query("getNext", outType: EthereumAddress.self)
     }
@@ -123,5 +127,13 @@ public extension MasterNode {
 
     func existNodeFounder(_ addr: EthereumAddress) async throws -> Bool {
         return try await storage.query("existNodeFounder", parameters: [addr], outType: Bool.self)
+    }
+
+    func isBindEnode(_ id: BigUInt, _ enode: String) async throws -> Bool {
+        return try await storage.query("isBindEnode", parameters: [id, enode], outType: Bool.self)
+    }
+
+    func isValidEnode(_ enode: String) async throws -> Bool {
+        return try await storage.query("isValidEnode", parameters: [enode], outType: Bool.self)
     }
 }

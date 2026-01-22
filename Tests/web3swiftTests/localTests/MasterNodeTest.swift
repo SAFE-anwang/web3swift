@@ -86,6 +86,13 @@ class MasterNodeTest: LocalTestCase {
         XCTAssertTrue(ret.id > 0)
     }
 
+    func testGetIDsByEnode() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let ret = try await web3.safe4.masternode.getIDsByEnode("enode://965e8c4efc181a5277443be267d87f503b929db7a6cedc294180f9b4021903cd825f860d268237c9429a699915e729d7e8f87dc4175dc7e36d057bf3543db65a@113.46.196.57:30303")
+        print(ret)
+        XCTAssertTrue(ret.count > 0)
+    }
+
     func testGetNext() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let ret = try await web3.safe4.masternode.getNext()
@@ -207,7 +214,7 @@ class MasterNodeTest: LocalTestCase {
 
     func testExistNodeEnode() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let enode = "enode://f687439863fce1ff70dc40bec0fe5ea1ad0833a2672c29590b0aa9001e1488013e42e8adc96a6a9312ed1426d6bea47026d057df57a5856970b207afac771f09@10.0.0.3:30303"
+        let enode = "enode://965e8c4efc181a5277443be267d87f503b929db7a6cedc294180f9b4021903cd825f860d268237c9429a699915e729d7e8f87dc4175dc7e36d057bf3543db65a@113.46.196.57:30303"
         let ret = try await web3.safe4.masternode.existNodeEnode(enode)
         print(ret)
         XCTAssertTrue(ret)
@@ -217,6 +224,20 @@ class MasterNodeTest: LocalTestCase {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let addr = EthereumAddress("0x69a6d725f772e44f11bd6d21ec5a92fdc7eab652")!
         let ret = try await web3.safe4.masternode.existNodeFounder(addr)
+        print(ret)
+        XCTAssertTrue(ret)
+    }
+
+    func testIsBindEnode() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let ret = try await web3.safe4.masternode.isBindEnode(1, "enode://965e8c4efc181a5277443be267d87f503b929db7a6cedc294180f9b4021903cd825f860d268237c9429a699915e729d7e8f87dc4175dc7e36d057bf3543db65a@113.46.196.57:30303")
+        print(ret)
+        XCTAssertTrue(ret)
+    }
+
+    func testIsValidEnode() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let ret = try await web3.safe4.masternode.isValidEnode("enode://965e8c4efc181a5277443be267d87f503b929db7a6cedc294180f9b4021903cd825f860d268237c9429a699915e729d7e8f87dc4175dc7e36d057bf3543db65a@113.46.196.57:30303")
         print(ret)
         XCTAssertTrue(ret)
     }
