@@ -9,7 +9,7 @@ class SRC20Test: LocalTestCase {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let src20 = SRC20(web3: web3)
         let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
-        let ret = try await src20.deploy(privateKey: privateKey, name: "LMB104", symbol: "LMB104", totalSupply: BigUInt("10000000000000000000000000000"))
+        let ret = try await src20.deploy(privateKey: privateKey, name: "LMB203", symbol: "LMB203", totalSupply: BigUInt("10000000000000000000000000000"))
         print("contract address: " + ret[0])
         print("deploy txid: " + ret[1])
         XCTAssertEqual(ret.count, 2)
@@ -17,7 +17,7 @@ class SRC20Test: LocalTestCase {
 
     func testTransfer() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
         let to = EthereumAddress("0x4c207825db1c46Dd836123E58ecaE85de7025879")!
         let amount = BigUInt("100000000000000000000")
@@ -39,7 +39,7 @@ class SRC20Test: LocalTestCase {
 
     func testName() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let name = try await src20.name()
         print(name)
         XCTAssertNotEqual(name, nil)
@@ -47,7 +47,7 @@ class SRC20Test: LocalTestCase {
 
     func testSymbol() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let symbol = try await src20.symbol()
         print(symbol)
         XCTAssertNotEqual(symbol, nil)
@@ -55,7 +55,7 @@ class SRC20Test: LocalTestCase {
 
     func testDecimals() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let decimals = try await src20.decimals()
         print(decimals)
         XCTAssertNotEqual(decimals, nil)
@@ -63,7 +63,7 @@ class SRC20Test: LocalTestCase {
 
     func testTotalSupply() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let totalSupply = try await src20.totalSupply()
         print(totalSupply)
         XCTAssertNotEqual(totalSupply, nil)
@@ -71,7 +71,7 @@ class SRC20Test: LocalTestCase {
 
     func testOwner() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let owner = try await src20.owner()
         print(owner)
         XCTAssertNotEqual(owner, nil)
@@ -79,7 +79,7 @@ class SRC20Test: LocalTestCase {
 
     func testBalanceOf() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let account = EthereumAddress("0x4c207825db1c46Dd836123E58ecaE85de7025879")!
         let balance = try await src20.balanceOf(account: account)
         print(balance)
@@ -98,7 +98,7 @@ class SRC20Test: LocalTestCase {
 
     func testSetOrgName() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
         let txid = try await src20.setOrgName(privateKey: privateKey, orgName: "lmb")
         print(txid)
@@ -107,7 +107,7 @@ class SRC20Test: LocalTestCase {
 
     func testSetLogo() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
         let logoUrl = URL(fileURLWithPath: "/Users/lmb/Desktop/104.png")
         do {
@@ -122,16 +122,16 @@ class SRC20Test: LocalTestCase {
 
     func testSetDescription() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
-        let txid = try await src20.setDescription(privateKey: privateKey, description: "LMB104 is a test token")
+        let txid = try await src20.setDescription(privateKey: privateKey, description: "LMB203 is a test token")
         print(txid)
         XCTAssertNotEqual(txid, nil)
     }
 
     func testSetOfficialUrl() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
         let txid = try await src20.setOfficialUrl(privateKey: privateKey, officialUrl: "https://www.lmb.com")
         print(txid)
@@ -140,7 +140,7 @@ class SRC20Test: LocalTestCase {
 
     func testSetWhitePaperUrl() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let privateKey = Data(hex: "0x7b281a9ba16001feb62a5929526ef8f69d6550c6acdc3f0579c69199c0b6a010")
         let txid = try await src20.setWhitePaperUrl(privateKey: privateKey, whitePaperUrl: "https://www.lmb.com/whitepaper.pdf")
         print(txid)
@@ -149,7 +149,7 @@ class SRC20Test: LocalTestCase {
 
     func testOrgName() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let orgName = try await src20.orgName()
         print(orgName)
         XCTAssertNotEqual(orgName, nil)
@@ -157,7 +157,7 @@ class SRC20Test: LocalTestCase {
 
     func testLogo() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let logo = try await src20.logo()
         print(logo.toHexString())
         XCTAssertNotEqual(logo, nil)
@@ -165,7 +165,7 @@ class SRC20Test: LocalTestCase {
 
     func testDescritpion() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let description = try await src20.description()
         print(description)
         XCTAssertNotEqual(description, nil)
@@ -173,7 +173,7 @@ class SRC20Test: LocalTestCase {
 
     func testOfficialUrl() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let officialUrl = try await src20.officialUrl()
         print(officialUrl)
         XCTAssertNotEqual(officialUrl, nil)
@@ -181,7 +181,7 @@ class SRC20Test: LocalTestCase {
 
     func testWhitePaperUrl() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let whitePaperUrl = try await src20.whitePaperUrl()
         print(whitePaperUrl)
         XCTAssertNotEqual(whitePaperUrl, nil)
@@ -189,9 +189,25 @@ class SRC20Test: LocalTestCase {
 
     func testVersion() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
-        let src20 = SRC20(web3: web3, contractAddr: "0x63A66E12E449F3499e6530CCc6f506870e5b26e5")
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
         let version = try await src20.version()
         print(version)
         XCTAssertNotEqual(version, nil)
+    }
+
+    func testGetLogoPayAmount() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
+        let payAmount = try await src20.getLogoPayAmount()
+        print(payAmount)
+        XCTAssertNotEqual(payAmount, nil)
+    }
+
+    func testGetLogoPayAddress() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let src20 = SRC20(web3: web3, contractAddr: "0x83ce057999b70dcd93b4abac99e3d7cfea1b319f")
+        let payAddress = try await src20.getLogoPayAddress()
+        print(payAddress)
+        XCTAssertNotEqual(payAddress, nil)
     }
 }
