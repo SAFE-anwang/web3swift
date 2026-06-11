@@ -178,6 +178,7 @@ public class Web3 {
         var proposalInstance: Proposal?
         var safe3Instance: Safe3?
         var safe4SwapInstance: Safe4Swap?
+        var dappInstance: DAppManager?
         
         public var sysproperty: SysProperty {
             let syspropertyInstance = syspropertyInstance ?? SysProperty(web3: web3)
@@ -240,6 +241,12 @@ public class Web3 {
             let safe4SwapInstance = safe4SwapInstance ?? Safe4Swap(web3: web3)
             self.safe4SwapInstance = safe4SwapInstance
             return safe4SwapInstance
+        }
+
+        public var dapp: DAppManager {
+            let dappInstance = dappInstance ?? DAppManager(web3: web3)
+            self.dappInstance = dappInstance
+            return dappInstance
         }
         
         public init(web3 web3instance: Web3) {
