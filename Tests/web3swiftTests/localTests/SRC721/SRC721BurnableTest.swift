@@ -229,6 +229,22 @@ class SRC721BurnableTest: LocalTestCase {
         XCTAssertNotEqual(tokenId, nil)
     }
 
+    func testGetAllowAddrNum() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let src721 = SRC721Burnable(web3: web3, contractAddr: "0xab8acd6363afb1a1ea026b2b3df93b26c1dbdb51")
+        let num = try await src721.getAllowAddrNum()
+        print(num)
+        XCTAssertNotEqual(num, nil)
+    }
+
+    func testGetAllowAddrs() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let src721 = SRC721Burnable(web3: web3, contractAddr: "0xab8acd6363afb1a1ea026b2b3df93b26c1dbdb51")
+        let allowInfo = try await src721.getAllowAddrs(BigUInt(0), BigUInt(100))
+        print(allowInfo)
+        XCTAssertTrue(allowInfo.addrs.count > 0)
+    }
+
     func testAmountAllowToMint() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let src721 = SRC721Burnable(web3: web3, contractAddr: "0x73c4779DdC6F08461437Ac458ab3e1A2B02210eC")

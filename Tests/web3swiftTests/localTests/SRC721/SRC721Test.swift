@@ -219,6 +219,22 @@ class SRC721Test: LocalTestCase {
         XCTAssertNotEqual(tokenId, nil)
     }
 
+    func testGetAllowAddrNum() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let src721 = SRC721(web3: web3, contractAddr: "0x6dff3712983dd23e7c0d3a0d3e8123913ef63b45")
+        let num = try await src721.getAllowAddrNum()
+        print(num)
+        XCTAssertNotEqual(num, nil)
+    }
+
+    func testGetAllowAddrs() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let src721 = SRC721(web3: web3, contractAddr: "0x6dff3712983dd23e7c0d3a0d3e8123913ef63b45")
+        let allowInfo = try await src721.getAllowAddrs(BigUInt(0), BigUInt(100))
+        print(allowInfo)
+        XCTAssertTrue(allowInfo.addrs.count > 0)
+    }
+
     func testAmountAllowToMint() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let src721 = SRC721(web3: web3, contractAddr: "0x3f1d0998010f4b800d40864e4a33729d575c4e3a")
