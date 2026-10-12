@@ -253,6 +253,14 @@ class SRC721Test: LocalTestCase {
         XCTAssertNotEqual(flag, nil)
     }
 
+    func testMintedTotal() async throws {
+        let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
+        let src721 = SRC721(web3: web3, contractAddr: "0x369122fbbb3b9ce66acaad07ed17c66ec57cd6cb")
+        let mintedTotal = try await src721.mintedTotal()
+        print(mintedTotal)
+        XCTAssertNotEqual(mintedTotal, nil)
+    }
+
     func testGetApproved() async throws {
         let web3 = try await Web3.new(LocalTestCase.url, network: Networks.fromInt(6666666))
         let src721 = SRC721(web3: web3, contractAddr: "0x3f1d0998010f4b800d40864e4a33729d575c4e3a")
